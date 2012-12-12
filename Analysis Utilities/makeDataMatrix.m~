@@ -46,7 +46,7 @@ for order = orderList
                         
             dataMatrix.fileN(end+1) = fileNum;
             dataMatrix.odor{end+1} = exp.odor;
-            dataMatrix.conc(end+1,:) = exp.;
+            dataMatrix.conc(end+1,:) = exp.odorConc(:);
             dataMatrix.epochN(end+1) = epochN;
             dataMatrix.leftEpoch(end+1) = 1;
             dataMatrix.lane(end+1) = fly;
