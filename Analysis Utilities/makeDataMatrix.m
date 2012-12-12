@@ -52,7 +52,7 @@ for order = orderList
 					lEpoch = 1;
 				else
 					PI =  (corrects - incorrects)/(corrects + incorrects);
-					lEpoch = 0;
+					lEpoch = -1;
 				end
 
 		        trackDiffs = diff(scaledSeg);
@@ -60,7 +60,7 @@ for order = orderList
 	                    
 		        dataMatrix.fileN(end+1) = fileNum;
 		        dataMatrix.odor{end+1} = exp.odor;
-		        dataMatrix.conc(end+1,:) = max([lPower,rPower])';
+		        dataMatrix.conc(end+1,1) = max([lPower,rPower])';
 		        dataMatrix.epochN(end+1) = epochN;
 		        dataMatrix.leftEpoch(end+1) = lEpoch;
 		        dataMatrix.lane(end+1) = fly;
