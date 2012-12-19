@@ -27,9 +27,9 @@ function laserSpeedHistogram(expList, useEpochs, useLanes)
 
         for epochN = useEpochs
 
-		    bodyX = resample(exp.epoch(epochN).track.bodyX,0:timeSampleInterval:exp.epoch(epochN).track.bodyX.Time(end));
-			headX = resample(exp.epoch(epochN).track.headX,0:timeSampleInterval:exp.epoch(epochN).track.headX.Time(end));
-			tTrack = bodyX.Time;
+        bodyX = resample(exp.epoch(epochN).track.bodyX,0:timeSampleInterval:exp.epoch(epochN).track.bodyX.Time(end));
+		headX = resample(exp.epoch(epochN).track.headX,0:timeSampleInterval:exp.epoch(epochN).track.headX.Time(end));
+		tTrack = bodyX.Time;
 
             for laneN = useLanes
                 scaledTrack = bodyX.Data(:,laneN) + headX.Data(:,laneN);

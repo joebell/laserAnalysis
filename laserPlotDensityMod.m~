@@ -135,7 +135,7 @@ ylim([ylims(1)-80 ylims(2)]);
     
 	
     yOffset = -(Nplots - 1) * vInterval;
-    axisBottom = yOffset -3*60 - 35;
+    axisBottom = -6*60 - 35;
     ticLength = 15;
     line([xBins(1)-5 xBins(end)+5],axisBottom + [0 0],'Color','k');
     line([0 0]+xBins(1),axisBottom + ticLength.*[-1 1],'Color','k');

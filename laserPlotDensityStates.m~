@@ -40,20 +40,13 @@ for expNn = 1:size(expList,2)
 	tTrack = bodyX.Time;
     for fly=lanesToUse
         for epochNn = 1:1
-			if (exp.laserParams(1) > exp.laserParams(2))
-				topN = 1;
-			elseif (exp.laserParams(1) < exp.laserParams(2))
-				topN = 2;
-			elseif (exp.laserParams(1) == exp.laserParams(2))
-				topN = randi(2);
-			end
             epochN = useEpochs(epochNn);
             xTrack = bodyX.Data(:,fly) + headX.Data(:,fly);
             stateSequence = identifyStates(xTrack);
             for stateN = statesList
                 ix = find(stateSequence == stateN);
                 N(1,1,1,:) = hist(xTrack(ix),xBins);
-                Ntot(stateN,powerN,topN,:) = Ntot(stateN,powerN,topN,:) + N;
+                Ntot(stateN,powerN,epochNn,:) = Ntot(stateN,powerN,epochNn,:) + N;
             end
         end
     end

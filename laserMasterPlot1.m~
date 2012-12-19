@@ -130,7 +130,7 @@ colN = 2;
 subplot(nRows,nCols,[(rowN(1)-1)*nCols + colN,(rowN(2)-1)*nCols + colN]);
 plotStateTransitionsBL(AllStateProbs)
 
-% Speed Histogram
+% State transition baseline
 rowN = 7:8;
 colN = 3;
 subplot(nRows,nCols,[(rowN(1)-1)*nCols + colN,(rowN(2)-1)*nCols + colN]);

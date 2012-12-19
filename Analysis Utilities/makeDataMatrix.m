@@ -41,18 +41,26 @@ for order = orderList
 		    
 				scaledSeg = scaledSegs(:,fly);
 
-				% Set the epoch with the highest power to be left
-				lPower = exp.laserParams(1);
-				rPower = exp.laserParams(2);
+				% 
+				lPower = exp.laserParams(1).*exp.laserFilter;
+				rPower = exp.laserParams(2).*exp.laserFilter;
 				signSeg = sign(scaledSeg);
-				corrects = nnz(find(signSeg == 1));
-				incorrects = nnz(find(signSeg ~= 1));
-		        if (lPower >= rPower)  
-					PI = -(corrects - incorrects)/(corrects + incorrects);
+				rightSides = nnz(find(signSeg == 1));
+				leftSides = nnz(find(signSeg ~= 1));
+		        if (lPower > rPower)  
+					PI = (leftSides - rightSides)/(leftSides + rightSides);
 					lEpoch = 1;
-				else
-					PI =  (corrects - incorrects)/(corrects + incorrects);
+				elseif (lPower < rPower)
+					PI =  (rightSides - leftSides)/(leftSides + rightSides);
 					lEpoch = -1;
+				elseif (lPower == rPower)
+					if (randi(2) == 1)
+						PI = (leftSides - rightSides)/(leftSides + rightSides);
+						lEpoch = 1;
+					else
+						PI =  (rightSides - leftSides)/(leftSides + rightSides);
+						lEpoch = -1;
+					end
 				end
 
 		        trackDiffs = diff(scaledSeg);
@@ -70,7 +78,11 @@ for order = orderList
 		        dataMatrix.isOdor(end+1) = true;
 		        [numL,numR] = computeDecPI(scaledSeg);
 		        if (numL + numR) > 0
-		            dataMatrix.decPI(end+1) = (numL - numR)/(numL + numR);          
+					if (lEpoch == 1)
+		            	dataMatrix.decPI(end+1) = (numL - numR)/(numL + numR); 
+					elseif (lEpoch == -1)
+						dataMatrix.decPI(end+1) = (numR - numL)/(numL + numR); 
+					end         
 		            dataMatrix.numDec(end+1) = numL + numR;   
 		        else
 		            dataMatrix.decPI(end+1) = NaN;          
