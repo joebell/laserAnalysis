@@ -1,12 +1,11 @@
 function plotVelocityAutocorrelation(expList,useEpochs,useLanes)
 
-%     useLanes = 1:8;
-%     useEpochs = [2,4];
+timeSampleInterval = .1;
     
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        laserPowers(expNn) = exp.laserPower;
+        laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
     end   
     powerList = unique(laserPowers);
     Npowers = size(powerList,2);
@@ -18,13 +17,16 @@ function plotVelocityAutocorrelation(expList,useEpochs,useLanes)
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        exp.comment;
-        powerN = dsearchn(powerList',exp.laserPower);
+
+        powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
         powerCorrs = allCorrs{powerN};
-        scaledExp = scaleTracks(exp);
         for epochN = useEpochs
+            bodyX = resample(exp.epoch(epochN).track.bodyX,0:timeSampleInterval:exp.epoch(epochN).track.bodyX.Time(end));
+			headX = resample(exp.epoch(epochN).track.headX,0:timeSampleInterval:exp.epoch(epochN).track.headX.Time(end));
+			tTrack = bodyX.Time;
             for laneN = useLanes
-                velTrack = scaledExp.epoch(epochN).velocity(:,1,laneN);
+                scaledTrack = bodyX.Data(:,laneN) + headX.Data(:,laneN);
+                velTrack = smoothVelocityTrack(scaledTrack);
                 [powerCorrs(end+1,:), lags] = xcorr(velTrack,150,'coeff');
             end
         end

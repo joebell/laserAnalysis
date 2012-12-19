@@ -3,6 +3,7 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
     fontSize = 8;
     plotColors = ['b','r','g'];
     spaceFactor = 1.2;
+    timeSampleInterval = .1;
     
 %     useLanes = 1:8;
 %     useEpochs = [2,4];
@@ -11,7 +12,7 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        laserPowers(expNn) = exp.laserPower;
+        laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
     end
     powerList = unique(laserPowers);
     Npowers = size(powerList,2);
@@ -21,12 +22,17 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
         % disp(expNn);
         expN = expList(expNn);
         loadData(expN);
-        exp.comment;
-        powerN = dsearchn(powerList',exp.laserPower);
-        scaledExp = scaleTracks(exp);
+
+        powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
+
         for laneN = useLanes
             for epochN = useEpochs
-                scaledTrack = scaledExp.epoch(epochN).scaledTrack(:,1,laneN);
+                
+                bodyX = resample(exp.epoch(epochN).track.bodyX,0:timeSampleInterval:exp.epoch(epochN).track.bodyX.Time(end));
+                headX = resample(exp.epoch(epochN).track.headX,0:timeSampleInterval:exp.epoch(epochN).track.headX.Time(end));
+                tTrack = bodyX.Time;
+                
+                scaledTrack = bodyX.Data(:,laneN) + headX.Data(:,laneN);
                 stateSeq   = identifyStates(scaledTrack);
                 dSSeq = 1 - abs([1,diff(stateSeq)']);
                 stateDuration = zeros(size(dSSeq,2),1);

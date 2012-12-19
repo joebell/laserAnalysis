@@ -1,11 +1,12 @@
 function I = plotMutualInformation(expList, useEpochs, useLanes)
 
+timeSampleInterval = .1;
 timeLags = [0:1:60,65:5:150];
 
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        laserPowers(expNn) = exp.laserPower;
+        laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
     end
     powerList = unique(laserPowers);
     Npowers = size(powerList,2);
@@ -26,12 +27,16 @@ for timeLagN = 1:size(timeLags,2);
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        exp.comment;
-        powerN = dsearchn(powerList',exp.laserPower);
-        scaledExp = scaleTracks(exp);
+
+        powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
+
         for laneN = useLanes
             for epochN = useEpochs
-                aTrack = scaledExp.epoch(epochN).scaledTrack(:,1,laneN);
+                bodyX = resample(exp.epoch(epochN).track.bodyX,0:timeSampleInterval:exp.epoch(epochN).track.bodyX.Time(end));
+                headX = resample(exp.epoch(epochN).track.headX,0:timeSampleInterval:exp.epoch(epochN).track.headX.Time(end));
+                tTrack = bodyX.Time;
+                
+                aTrack = bodyX.Data(:,laneN) + headX.Data(:,laneN);
                 stateSequence = identifyStates(aTrack);
                 nowSequence = stateSequence((1+timeLag):end);
                 prevSequence = stateSequence(1:(end-timeLag));

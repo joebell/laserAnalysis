@@ -2,6 +2,7 @@ function plotCondProbTimes(expList,axesArray, useEpochs, useLanes)
 
 minSamples = 1;        % Don't display averages with fewer    
 timeLags = [0:1:60,65:5:150];
+timeSampleInterval = .1;
 
 % useEpochs = [2,4];
 % useLanes = 1:8;
@@ -14,11 +15,15 @@ for expNn = 1:size(expList,2)
     expN = expList(expNn);
     loadData(expN);
     disp(['CP: ',num2str(expN)]);
-    exp.comment;
-    scaledExp = scaleTracks(exp);
+
     for epochN = useEpochs
         for laneN = useLanes
-            aTrack = scaledExp.epoch(epochN).scaledTrack(:,1,laneN);
+            
+            bodyX = resample(exp.epoch(epochN).track.bodyX,0:timeSampleInterval:exp.epoch(epochN).track.bodyX.Time(end));
+			headX = resample(exp.epoch(epochN).track.headX,0:timeSampleInterval:exp.epoch(epochN).track.headX.Time(end));
+			tTrack = bodyX.Time;
+            
+            aTrack = bodyX.Data(:,laneN) + headX.Data(:,laneN);
             stateSequence = identifyStates(aTrack);
             % For each time lag
             for timeLagN = 1:size(timeLags,2);

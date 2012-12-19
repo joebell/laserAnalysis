@@ -1,5 +1,7 @@
 function plotThumbnails(expList, title, useLanes)
     
+    timeSampleInterval = .1;
+    
     dM = makeDataMatrix(expList);
     numPoints = size(dM.PI,2);
     laserPowers = dM.conc(:,1)';
@@ -11,21 +13,33 @@ function plotThumbnails(expList, title, useLanes)
     for expN = expList
         
         loadData(expN);
-        exp.comment; 
-        scaledExp = scaleTracks(exp);
-        powerN = dsearchn(powerList', exp.laserPower);
-        repN = ceil((expN - expList(1) + 1)/nPowers);
-
-        originX = (repN-1)*60*7;
+ 
+        powerN = dsearchn(powerList', max(exp.laserParams.*exp.laserFilter));
+        repN = 2*ceil((expN - expList(1) + 1)/(2*nPowers))-1;
+        
+        	if (exp.laserParams(1) > exp.laserParams(2))
+                lEpoch = 1;
+            elseif (exp.laserParams(2) > exp.laserParams(1))
+                lEpoch = -1;
+                repN = repN + 1;
+            elseif (exp.laserParams(1) == exp.laserParams(2))
+                lEpoch = randi(2)*2-3;
+            end
+        
+        originX = (repN-1)*60*4;
         originY = -(powerN-1)*9*60;
         text(originX,originY+20,num2str(expN),'FontSize',6,...
             'HorizontalAlignment','left','VerticalAlignment','bottom');
         hold on;
-        plotBG(originX,originY); 
+        plotBG(originX,originY,lEpoch);
+        % Resample data
+        bodyX = resample(exp.wholeTrack.bodyX,0:timeSampleInterval:exp.wholeTrack.bodyX.Time(end));
+        headX = resample(exp.wholeTrack.headX,0:timeSampleInterval:exp.wholeTrack.headX.Time(end));
+        tTrack = bodyX.Time;
         for flyN=useLanes
             yAdj = -(flyN-1)*60;
-            time = (1:(size(scaledExp.wholeScaledTrack,1))).*scaledExp.acquisitionRate;
-            plot(time+originX,scaledExp.wholeScaledTrack(:,1,flyN)+yAdj+originY,'Color',pretty(flyN));
+            xTrack = bodyX.Data(:,flyN) + headX.Data(:,flyN);           
+            plot(tTrack+originX,xTrack+yAdj+originY,'Color',pretty(flyN));
         end
         set(gca,'XTick',[],'YTick',[],'ZTick',[]);
         box off;
