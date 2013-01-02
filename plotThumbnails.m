@@ -8,6 +8,7 @@ function plotThumbnails(expList, title, useLanes)
     powerList = unique(laserPowers);
     nPowers = size(powerList,2);
     nReps = ceil(size(expList,2)/nPowers);
+	zeroRepIdx = 1;
            
 
     for expN = expList
@@ -23,7 +24,13 @@ function plotThumbnails(expList, title, useLanes)
                 lEpoch = -1;
                 repN = repN + 1;
             elseif (exp.laserParams(1) == exp.laserParams(2))
-                lEpoch = randi(2)*2-3;
+                repN = zeroRepIdx;
+				zeroRepIdx = zeroRepIdx + 1;
+				if (mod(repN,2) == 1)
+					lEpoch = 1;
+				else
+					lEpoch = -1;
+				end
             end
         
         originX = (repN-1)*60*4;
@@ -53,7 +60,7 @@ function plotThumbnails(expList, title, useLanes)
             'FontSize',8);
     end
     
-    text((nReps)*60*7/2,90,title,'HorizontalAlignment','center',...
+    text((nReps)*60*4/2,90,title,'HorizontalAlignment','center',...
         'FontSize',10,'VerticalAlignment','bottom');
     set(gcf,'Color','w');
     set(gca,'Visible','off');

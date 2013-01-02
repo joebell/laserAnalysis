@@ -1,7 +1,8 @@
 function I = plotMutualInformation(expList, useEpochs, useLanes)
 
 timeSampleInterval = .1;
-timeLags = [0:1:60,65:5:150];
+% timeLags = [0:1:60,65:5:150];
+timeLags = [0:1:10,20:10:150];
 
     for expNn = 1:size(expList,2)
         expN = expList(expNn);

@@ -37,7 +37,7 @@ function laserPowerSeriesFlex(dM, useLanes, plotQuantity, travelThreshold, lineC
     laserPowers = dM.conc(:,1)';
     powerList = unique(laserPowers);
     nPowers = size(powerList,2);
-	xScale = mean(diff(powerList));
+	xScale = max([mean(diff(powerList)),1]);  % Protect against 1 power
     fileNs = dM.fileN;
     fileList = unique(fileNs);
     nFiles = size(fileList,2);

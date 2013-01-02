@@ -12,7 +12,6 @@ colN = 1;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, useLanes, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
     laserPowerSeriesFlex(dM,useLanes,'PI',20,'b',false,false,false,true,true,true);
-
     
 rowN = 1;
 colN = 2;
@@ -30,8 +29,6 @@ colN = 3;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
     laserPowerSeriesFlex(dM,useLanes,'PI',20,'b',false,false,true,false,false,false);
-
-    
     
 %% Plot Decision based PI's     
 
@@ -101,12 +98,12 @@ subplot(nRows,nCols,(rowN-1)*nCols + colN);
 
 
 
-
-
 rowN = 5;
 colN = 1:3;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 laserPlotDensityMod(expList, useLanes);
+
+
 
 rowN = 6;
 colN = 1:3;

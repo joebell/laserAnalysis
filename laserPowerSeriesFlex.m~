@@ -30,13 +30,14 @@ function laserPowerSeriesFlex(dM, useLanes, plotQuantity, travelThreshold, lineC
     
     bigLineWidths = .5;
     labelFontSize = 6;
+	chunkWidth = .75;
 
 
     numPoints = size(pQ,2);
     laserPowers = dM.conc(:,1)';
     powerList = unique(laserPowers);
     nPowers = size(powerList,2);
-	xScale = mean(diff(powerList));
+	xScale = max([mean(diff(powerList)),1]);
     fileNs = dM.fileN;
     fileList = unique(fileNs);
     nFiles = size(fileList,2);
@@ -63,7 +64,7 @@ for powerN = 1:nPowers;
                     (laneSwitches(dM.lane))');
                 numFound = size(ix,2);
                 pQs = pQ(ix);
-            xDots = power + ((fileOrder(ix)/nFiles)-.5)*chunkWidth;
+            xDots = power + ((fileOrder(ix)/nFiles)-.5)*chunkWidth*xScale;
             plotColor = pretty(laneN);
             scatter(xDots,pQs,'MarkerEdgeColor',plotColor,'Marker','+','SizeData',ones(numFound,1)*9);
             hold on;
@@ -81,7 +82,7 @@ for powerN = 1:nPowers;
             blockMeans(blockN) = nanmean(pQs);
             blockStErrs(blockN) = nanstd(pQs)./sqrt(numFound);
         end
-        xPoints = power + ((1:nBlocks)./nBlocks - .5)*chunkWidth;
+        xPoints = power + ((1:nBlocks)./nBlocks - .5)*chunkWidth*xScale;
         h = joeArea(xPoints,blockMeans-blockStErrs,blockMeans+blockStErrs);
         set(h,'EdgeColor','none','FaceColor',lineColor,'FaceAlpha',.2);
         hold on;
@@ -99,7 +100,7 @@ for powerN = 1:nPowers;
             pQs = pQ(ix);
             laneMean = nanmean(pQs);
             laneErr = nanstd(pQs)/sqrt(numFound);
-            x = power+(laneN/8 -.5)*chunkWidth;
+            x = power+(laneN/8 -.5)*chunkWidth*xScale;
             tickWidth = .2;
             line([x x],[-laneErr, laneErr]+laneMean,'Color',pretty(laneN),'LineWidth',bigLineWidths); hold on;
             line(x + tickWidth/2.*[-1 1],laneMean+[0,0],'Color',pretty(laneN),'LineWidth',bigLineWidths);
@@ -125,12 +126,12 @@ for powerN = 1:nPowers;
         rightMean = nanmean(pQs);
         rightErr = nanstd(pQs)/sqrt(numFound);
         
-        x = power+(-1)*chunkWidth/8;
+        x = power+(-1)*chunkWidth*xScale/8;
         tickWidth = .2;
         line([x x],[-leftErr, leftErr]+leftMean,'Color',pretty('e'),'LineWidth',bigLineWidths ); hold on;
         line(x + tickWidth/2.*[-1 1],leftMean+[0,0],'Color',pretty('e'),'LineWidth',bigLineWidths );
 
-        x = power+(1)*chunkWidth/8;
+        x = power+(1)*chunkWidth*xScale/8;
         tickWidth = .2;
         line([x x],[-rightErr, rightErr]+rightMean,'Color',pretty('r'),'LineWidth',bigLineWidths );
         line(x + tickWidth/2.*[-1 1],rightMean+[0,0],'Color',pretty('r'),'LineWidth',bigLineWidths );
@@ -160,7 +161,7 @@ ylims = ylim();
 ylim([ylims(1)-.1,ylims(2)+.1]);
 ylabel(plotQuantity,'FontSize',labelFontSize);
 
-xlim([powerList(1)-chunkWidth/2,powerList(end)+chunkWidth/2]);
+xlim([powerList(1)-chunkWidth*xScale/2,powerList(end)+chunkWidth*xScale/2]);
 xlabel('Laser Command (AU / 255)','FontSize',labelFontSize);
 set(gca,'ZTick',[],'FontSize',labelFontSize);
 set(gca,'XTick',powerList);
