@@ -51,7 +51,7 @@ for expNn = 1:size(expList,2)
 			% Resample data
 			xTrack = bodyX.Data(:,fly) + headX.Data(:,fly);
 		    stateSequence = identifyStates(xTrack);       
-		    for plotN = 1:Nplots
+		    % for plotN = 1:Nplots
 		        states = statesList{plotN};
 		        stateMultiplier = stateMultiplierList(plotN);
 		        targetStates = zeros(size(stateSequence,1),1);
@@ -62,7 +62,7 @@ for expNn = 1:size(expList,2)
 		        ix = find(targetStates);
 		        N(1,1,:,:) = hist3([tTrack(ix),xTrack(ix)],{tBins,xBins});
 		        Ntot(plotN,powerN,:,:) = Ntot(plotN,powerN,:,:) + N.*stateMultiplier;
-		    end
+		    % end
 		end
 end
 
