@@ -56,6 +56,7 @@ function batchMasterPlots()
 
 %laserMasterPlots('121214 - NorpA^7',returnFileList('122914-101238'),2,1:8,'121214-NA.pdf');
 %laserMasterPlots('121217 - NorpA^7',returnFileList('121217-'),2,1:8,'121217-NA.pdf');
+%laserMasterPlots('121218 - ChR-83b',returnFileList('121218-133500'),2,1:8,'121218-83b.pdf');
 %laserMasterPlots('121219a - NAChR-Ctrl',returnFileList('121219-09'),2,1:8,'121219-A.pdf');
 %laserMasterPlots('121219b - NAChR-Ctrl',returnFileList('121219-10'),2,1:8,'121219-B.pdf');
 %laserMasterPlots('121219c - NAChR-Ctrl',returnFileList('121219-12'),2,1:8,'121219-C.pdf');
@@ -63,12 +64,21 @@ function batchMasterPlots()
 %laserMasterPlots('121219e - NAChR-Ctrl',returnFileList('121219-15'),2,1:8,'121219-E.pdf');
 %laserMasterPlots('121219f - NAChR-Ctrl',returnFileList('121219-160'),2,1:8,'121219-F.pdf');
 %laserMasterPlots('121219g - NAChR-Ctrl',returnFileList('121219-165'),2,1:8,'121219-G.pdf');
-%laserMasterPlots('121218 - ChR-83b',returnFileList('121218-133500'),2,1:8,'121218-83b.pdf');
 
-%laserMasterPlots('121229 - ChR-83b',returnFileList('121229-092941'),2,1:8,'121229-83b.pdf');
-
+%laserMasterPlots('121229 - ChR-83b',returnFileList('121229-'),2,1:8,'121229-83b.pdf');
 %laserMasterPlots('121230 - ChR-83b',returnFileList('121230-'),2,1:8,'121230-83b.pdf');
+%laserMasterPlots('121231 - ChR-83b',returnFileList('121231-'),2,1:8,'121231-83b.pdf');
+%laserMasterPlots('130102 - ChR-83b',returnFileList('130102-083000-'),2,1:8,'130102-83b.pdf');
+%laserMasterPlots('130102b - ChR-Ctrl',returnFileList('130102-172600-'),2,1:8,'130102b-Ctrl.pdf');
+%laserMasterPlots('130103a - ChR-42b',returnFileList('130103-072200-'),2,1:8,'130103a-42b.pdf');
+%laserMasterPlots('130103b - ChR-82a',returnFileList('130103-151600-'),2,1:8,'130103b-82a.pdf');
+%laserMasterPlots('130103c - ChR-92a',returnFileList('130103-230000-'),2,1:8,'130103c-92a.pdf');
+%laserMasterPlots('130104 - ChR-Ctrl',returnFileList('130104-'),2,1:8,'130104-Ctrl.pdf');
+%laserMasterPlots('130107a - ChR-67b',returnFileList('130107-082000-'),2,1:8,'130107a-67b.pdf');
+%laserMasterPlots('130107b - ChR-67d',returnFileList('130107-160300'),2,1:8,'130107b-67d.pdf');
 
-laserMasterPlots('121231 - ChR-83b',returnFileList('121231-'),2,1:8,'121231-83b.pdf');
+
+%softReset();
+%startTracking;
 
 
