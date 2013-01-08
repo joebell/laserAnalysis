@@ -2,6 +2,7 @@ function laserPlotDensityMod(expList,lanesToUse)
 
 timeSampleInterval = .1;
 fontSize = 6;
+minTravelDistance = 20; % mm
 % lanesToUse = [1:8];
 
 xBins = -25:1:25;
@@ -21,6 +22,7 @@ statesList = {[1,2,3],[1,2,3]};
 Nplots = 2; % Plot L and R separately
 stateMultiplierList = [1,1,1,1]; % For scaling state histograms
 stateDescriptions = {'Laser L','Laser R'};
+nZeros = 0;
 
 for expNn = 1:size(expList,2)
     expN = expList(expNn);
@@ -40,7 +42,8 @@ for expNn = 1:size(expList,2)
 	elseif (exp.laserParams(2) > exp.laserParams(1))
 		plotN = 2;
 	elseif (exp.laserParams(1) == exp.laserParams(2))
-		plotN = randi(2);
+        nZeros = nZeros + 1;
+		plotN = mod(nZeros,2)+1;
 	end
 		powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
 		% Resample data
@@ -50,19 +53,22 @@ for expNn = 1:size(expList,2)
 		for fly=lanesToUse
 			% Resample data
 			xTrack = bodyX.Data(:,fly) + headX.Data(:,fly);
-		    stateSequence = identifyStates(xTrack);       
-		    % for plotN = 1:Nplots
-		        states = statesList{plotN};
-		        stateMultiplier = stateMultiplierList(plotN);
-		        targetStates = zeros(size(stateSequence,1),1);
-		        for stateN=1:size(states,2)
-		            state = states(stateN);
-		            targetStates = (targetStates | (stateSequence == state));
-		        end
-		        ix = find(targetStates);
-		        N(1,1,:,:) = hist3([tTrack(ix),xTrack(ix)],{tBins,xBins});
-		        Ntot(plotN,powerN,:,:) = Ntot(plotN,powerN,:,:) + N.*stateMultiplier;
-		    % end
+            dTraveled = sum(abs(diff(xTrack)));
+            if (dTraveled > minTravelDistance) % Screen out stationary tracks
+                stateSequence = identifyStates(xTrack);                
+                states = statesList{plotN};
+                stateMultiplier = stateMultiplierList(plotN);
+                targetStates = zeros(size(stateSequence,1),1);
+                for stateN=1:size(states,2)
+                    state = states(stateN);
+                    targetStates = (targetStates | (stateSequence == state));
+                end
+                ix = find(targetStates);
+                N(1,1,:,:) = hist3([tTrack(ix),xTrack(ix)],{tBins,xBins});
+                Ntot(plotN,powerN,:,:) = Ntot(plotN,powerN,:,:) + N.*stateMultiplier;
+            else
+                disp('Dropped stationary track');
+            end
 		end
 end
 
