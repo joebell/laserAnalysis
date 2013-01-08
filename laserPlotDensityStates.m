@@ -2,7 +2,7 @@ function laserPlotDensityStates(expList,useEpochs, lanesToUse, axesArray)
 
 fontSize = 6;
 timeSampleInterval = .1;
-minTravelDistance = -1; % mm
+minTravelDistance = 20; % mm
 % lanesToUse = [1:8];
 
 xBins = -25:1:25;
