@@ -23,6 +23,7 @@ allData = [];
 for n=1:7
     posMatrixC{n} = [];
     speedMatrixC{n} = [];
+	ySpeedMatrixC{n} = [];
     angSpeedMatrixC{n} = [];
 end
 
@@ -136,11 +137,18 @@ for order = orderList
                 
 %                figure(speedFig);
 %                subplot(size(exp.laserPowers,2)*1,1,rowN*1-0);
-                speedTrace = abs([diff(bodyX(sampleVector));0])./timeSampleInterval;
+				xSpeed = [diff(bodyX(sampleVector));0];
+                speedTrace = abs(xSpeed)./timeSampleInterval;
 %                plot((sampleVector - sampleVector(previewLength+1)).*timeSampleInterval,speedTrace,'Color',[.8 .8 1]*1); hold on;
                 speedMatrix = speedMatrixC{rowN};
                 speedMatrix = padcat(1,speedMatrix,speedTrace',NaN);
                 speedMatrixC{rowN} = speedMatrix;
+
+				ySpeed = [diff(bodyY(sampleVector));0];
+                ySpeedTrace = abs(ySpeed)./timeSampleInterval;
+                ySpeedMatrix = ySpeedMatrixC{rowN};
+                ySpeedMatrix = padcat(1,ySpeedMatrix,ySpeedTrace',NaN);
+                ySpeedMatrixC{rowN} = ySpeedMatrix;
                 
 %                figure(angSpeedFig);
 %                subplot(size(exp.laserPowers,2)*1,1,rowN*1-0);
@@ -161,6 +169,7 @@ for rowN = usePowers
     
     posMatrix = posMatrixC{rowN};
     speedMatrix = speedMatrixC{rowN};
+	ySpeedMatrix = ySpeedMatrixC{rowN};
     angSpeedMatrix = angSpeedMatrixC{rowN};
     
 %    figure(posFig);
@@ -176,7 +185,7 @@ for rowN = usePowers
 %                    ylabel('X (mm)');
 %                    title(['LP = ',num2str(exp.laserPowers(rowN).*exp.laserFilter)]);
     % figure(totalPosFig);
-	subplot(3,1,1);
+	subplot(4,1,1);
     h = joeArea(timeVals,meanVals-stdVals,meanVals+stdVals); hold on;
     set(h,'EdgeColor','none','FaceColor',pretty(8-rowN),'FaceAlpha',.3);
     plot(timeVals,meanVals,'Color',pretty(8-rowN));
@@ -202,17 +211,31 @@ for rowN = usePowers
 %                    ylabel('Speed (mm/sec)');
 %                    title(['LP = ',num2str(exp.laserPowers(rowN).*exp.laserFilter)]);
 %    figure(totalSpeedFig);
-	subplot(3,1,2);
+	subplot(4,1,2);
     h = joeArea(timeVals,meanVals-stdVals,meanVals+stdVals); hold on;
     set(h,'EdgeColor','none','FaceColor',pretty(8-rowN),'FaceAlpha',.3);
     plot(timeVals,meanVals,'Color',pretty(8-rowN));
                     xlim([-previewLength plotLength]*timeSampleInterval);
                     ylim([0 15]);
-                    ylabel('Speed (mm/sec)'); 
+                    ylabel('X Speed (mm/sec)'); 
 					line([0,0],ylim(),'Color','k');
 					% title('Aligned by first laser onset per trial');
                     %title(['LP = ',num2str(exp.laserPowers(rowN).*exp.laserFilter)]);
-    
+ 
+    meanVals = nanmean(ySpeedMatrix,1);
+    stdVals = nanstd(ySpeedMatrix)/sqrt(size(ySpeedMatrix,1));
+    timeVals = ((1:size(ySpeedMatrix,2))-previewLength).*timeSampleInterval;
+	subplot(4,1,3);
+    h = joeArea(timeVals,meanVals-stdVals,meanVals+stdVals); hold on;
+    set(h,'EdgeColor','none','FaceColor',pretty(8-rowN),'FaceAlpha',.3);
+    plot(timeVals,meanVals,'Color',pretty(8-rowN));
+                    xlim([-previewLength plotLength]*timeSampleInterval);
+                    ylim([0 4]);
+                    ylabel('Y Speed (mm/sec)'); 
+					line([0,0],ylim(),'Color','k');
+
+
+   
 %    figure(angSpeedFig);
 %    subplot(size(exp.laserPowers,2)*1,1,rowN*1-0);
     meanVals = nanmean(angSpeedMatrix,1);
@@ -226,7 +249,7 @@ for rowN = usePowers
 %                    ylabel('Ang. sp. (rad/sec)');
 %                    title(['LP = ',num2str(exp.laserPowers(rowN).*exp.laserFilter)]);
 %    figure(totalAngSpeedFig);
-	subplot(3,1,3);
+	subplot(4,1,4);
     h = joeArea(timeVals,meanVals-stdVals,meanVals+stdVals); hold on;
     set(h,'EdgeColor','none','FaceColor',pretty(8-rowN),'FaceAlpha',.3);
     plot(timeVals,meanVals,'Color',pretty(8-rowN));
