@@ -42,8 +42,22 @@ function laserPowerSeriesFlex(dM, useLanes, plotQuantity, travelThreshold, lineC
     fileList = unique(fileNs);
     nFiles = size(fileList,2);
     fileOrder = dsearchn(fileList',fileNs');
-    blockNs = ceil(fileOrder./(nPowers*2));
-    nBlocks = max(blockNs);
+	
+		
+%    blockNs = ceil(fileOrder./(nPowers*2));
+%    nBlocks = max(blockNs);
+
+blockNs = zeros(1,size(pQ,2));
+for powerN = 1:nPowers
+	power = powerList(powerN);
+	ix = find((laserPowers == power)&...
+         	  (dM.isOdor));
+	for ixN = 1:size(ix,2)
+		blockNs(ix(ixN)) = ceil(ixN/16);
+	end
+end
+nBlocks = max(blockNs);
+
 
     if refLineOn
         line([powerList(1)-chunkWidth/2,powerList(end)+chunkWidth/2],[0,0],'LineStyle',':','Color',[1 1 1]*.7); hold on;
@@ -73,20 +87,25 @@ for powerN = 1:nPowers;
     
     % Plot a mini time series at each power point
     if plotTimeTrends
+		blockMeans = []; blockStErrs = [];
+		biggestBlock = 1;
         for blockN = 1:nBlocks
             ix = find((laserPowers == power)&...
                 (dM.dTraveled > travelThreshold)&...
-                (dM.isOdor)&(blockNs' == blockN)&(laneSwitches(dM.lane))');
+                (dM.isOdor)&(blockNs == blockN)&(laneSwitches(dM.lane))');
             numFound = size(ix,2);
             pQs = pQ(ix);
-            blockMeans(blockN) = nanmean(pQs);
-            blockStErrs(blockN) = nanstd(pQs)./sqrt(numFound);
+			if (numFound > 0)
+		        blockMeans(blockN) = nanmean(pQs);
+		        blockStErrs(blockN) = nanstd(pQs)./sqrt(numFound);
+				biggestBlock = blockN;
+			end
         end
-        xPoints = power + ((1:nBlocks)./nBlocks - .5)*chunkWidth*xScale;
+        xPoints = power + ((1:biggestBlock)./biggestBlock - .5)*chunkWidth*xScale;
         h = joeArea(xPoints,blockMeans-blockStErrs,blockMeans+blockStErrs);
         set(h,'EdgeColor','none','FaceColor',lineColor,'FaceAlpha',.2);
         hold on;
-        plot(xPoints,blockMeans,'Color',lineColor); 
+        plot(xPoints,blockMeans,'.-','Color',lineColor); 
         box off;
     end    
     

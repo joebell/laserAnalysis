@@ -20,7 +20,7 @@ allData = [];
 %totalSpeedFig = figure();
 %totalAngSpeedFig = figure();
 
-for n=1:7
+for n=1:12
     posMatrixC{n} = [];
     speedMatrixC{n} = [];
 	ySpeedMatrixC{n} = [];

@@ -95,20 +95,54 @@ function batchMasterPlots()
 %laserMasterPlots('130110  - ChR-10a Abr.',  returnAbbreviatedFileList('130110-'       ,3*14),2,1:8,'130110-10a-Abr.pdf');
 
 %laserMasterPlots('130111 - ChR-92a',returnFileList('130111-090500-'),2,1:8,'130111-92a-blocked.pdf');
-list = returnFileList('130111-090500-');
-list1 = list(1:63); list2 = list(64:126);
-laserMasterPlots('130111 - ChR-92a - Pass1',list1,2,1:8,'130111-92a-blockedP1.pdf');
-laserMasterPlots('130111 - ChR-92a - Pass2',list2,2,1:8,'130111-92a-blockedP2.pdf');
+%list = returnFileList('130111-090500-');
+%list1 = list(1:63); list2 = list(64:126);
+%laserMasterPlots('130111 - ChR-92a - Pass1',list1,2,1:8,'130111-92a-blockedP1.pdf');
+%laserMasterPlots('130111 - ChR-92a - Pass2',list2,2,1:8,'130111-92a-blockedP2.pdf');
 
-list = returnFileList('130114-101500-');
-list1 = list(1:64); list2 = list(65:128);
-laserMasterPlots('130114a - ChR-Ctrl - Pass1',list1,2,1:8,'130114a-Ctrl-blockedP1.pdf');
-laserMasterPlots('130114a - ChR-Ctrl - Pass2',list2,2,1:8,'130114a-Ctrl-blockedP2.pdf');
+%list = returnFileList('130114-101500-');
+%list1 = list(1:64); list2 = list(65:128);
+%laserMasterPlots('130114a - ChR-Ctrl - Pass1',list1,2,1:8,'130114a-Ctrl-blockedP1.pdf');
+%laserMasterPlots('130114a - ChR-Ctrl - Pass2',list2,2,1:8,'130114a-Ctrl-blockedP2.pdf');
 
-list = returnFileList('130114-181520-');
-list1 = list(1:64); list2 = list(65:128);
-laserMasterPlots('130114b - ChR-22a - Pass1',list1,2,1:8,'130114b-22a-blockedP1.pdf');
-laserMasterPlots('130114b - ChR-22a - Pass2',list2,2,1:8,'130114b-22a-blockedP2.pdf');
+%list = returnFileList('130114-181520-');
+%list1 = list(1:64); list2 = list(65:128);
+%laserMasterPlots('130114b - ChR-22a - Pass1',list1,2,1:8,'130114b-22a-blockedP1.pdf');
+%laserMasterPlots('130114b - ChR-22a - Pass2',list2,2,1:8,'130114b-22a-blockedP2.pdf');
+
+%laserMasterPlots('130118 - ChR-42a',returnFileList('130118-093536-'),2,1:8,'130118-42a.pdf');
+
+%laserMasterPlots('130121 - ChR-83b 30sec Trials',returnFileList('130121-091352-'),2,1:8,'130121-83bShort.pdf');
+%laserMasterPlots('130121 - ChR-92a 30sec Trials',returnFileList('130121-215506-'),2,1:8,'130121-92aShort.pdf');
+%laserMasterPlots('130122 - ChR-Ctrl 30sec Trials',returnFileList('130122-091053-'),2,1:8,'130122-CtrlShort.pdf');
+%laserMasterPlots('130122 - ChR-92a Adapt. Recov.',returnFileList('130122-152336-'),2,1:8,'130122-92aAdaptRecov.pdf');
+%laserMasterPlots('130122 - ChR-42a 30sec Trials',returnFileList('130122-224253-'),2,1:8,'130122-42aShort.pdf');
+%laserMasterPlots('130123a - ChR-22a 30sec Trials 1',returnFileList('130123-092300-'),2,1:8,'130123a-22aShort1.pdf');
+%laserMasterPlots('130123b - ChR-22a 30sec Trials 2',returnFileList('130123-133715-'),2,1:8,'130123b-22aShort2.pdf');
+%laserMasterPlots('130123c - ChR-42b,67b 30sec Trials',returnFileList('130123-201653-'),2,1:8,'130123c-42b67bShort.pdf');
+%laserMasterPlots('130124a - ChR-Ctrl 30sec Trials',returnFileList('130124-092512-'),2,1:8,'130124a-Ctrl.pdf');
+%laserMasterPlots('130124b - ChR-42a 30sec Trials Randomized',returnFileList('130124-172812-'),2,1:8,'130124b-42aRand.pdf');
+%laserMasterPlots('130125 - ChR-42a 2min Trials Randomized',returnFileList('130125-083800-'),2,1:8,'130125-42aRand2min.pdf');
+
+%laserMasterPlots('130128 - 42b,82a',returnFileList('130128-083447-'),2,1:8,'130128-42b82a.pdf');
+%laserMasterPlots('130129 - 10a,22a',returnFileList('130129-170614-'),2,1:8,'130129-10a22a.pdf');
+%laserMasterPlots('130130a - 67d,22a',returnFileList('130130-004300-'),2,1:8,'130130a-67d22a.pdf');
+%laserMasterPlots('130130b - 67d,82a',returnFileList('130130-094913-'),2,1:8,'130130b-67d82a.pdf');
+%laserMasterPlots('130130c - 42b,67b',returnFileList('130130-174007-'),2,1:8,'130130c-42b67b.pdf');
+
+%laserMasterPlots('130131a - 10a,67b',returnFileList('130131-091001-'),2,1:8,'130131a-10a67b.pdf');
+%laserMasterPlots('130131b - 67d,22a',returnFileList('130131-165126-'),2,1:8,'130131b-67d22a.pdf');
+%laserMasterPlots('130201 - 67d,22a',returnFileList('130201-092723-'),2,1:8,'130201-67d22a.pdf');
+%laserMasterPlots('130204a - 56a3',returnFileList('130204-084500-'),2,1:8,'130204a-56a3.pdf');
+%laserMasterPlots('130204b - 42b',returnFileList('130204-162940-'),2,1:8,'130204b-42b.pdf');
+%laserMasterPlots('130205a - 56a2',returnFileList('130205-090414-'),2,1:8,'130205a-56a2.pdf');
+%laserMasterPlots('130205b - 92a',returnFileList('130205-164316-'),2,1:8,'130205b-92a.pdf');
+%laserMasterPlots('130206 - Gr21aBD',returnFileList('130206-083520-'),2,1:8,'130206-Gr21aBD.pdf');
+laserMasterPlots('130207 - Gr21aC',returnFileList('130207-075320-'),2,1:8,'130207-Gr21aC.pdf');
+
+
+
+
 
 %softReset();
 %startTracking;

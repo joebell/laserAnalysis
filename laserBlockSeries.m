@@ -80,8 +80,8 @@ xlabel('Block #','FontSize',labelFontSize);
 set(gca,'ZTick',[],'FontSize',labelFontSize);
 set(gca,'XTick',1:nBlocks);
 
-for n = 1:7
-	line((nBlocks*n/8).*[1 1] + .5,ylim(),'Color','k');
+for n = 1:5
+	line((nBlocks*n/6).*[1 1] + .5,ylim(),'Color','k');
 end
 
     
