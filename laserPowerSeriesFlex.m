@@ -3,10 +3,12 @@ function laserPowerSeriesFlex(dM, useLanes, plotQuantity, travelThreshold, lineC
     laneSwitches = zeros(8,1);
     laneSwitches(useLanes) = 1;
 
+%	adaptTarget = 4;
+
     refLineOn = false;
     if strcmp(plotQuantity,'dTraveled')
         pQ = dM.dTraveled;
-        pQ = pQ ./ 120;
+        pQ = pQ ./ 30;
         plotQuantity = 'Mean speed (mm/sec)';
     elseif strcmp(plotQuantity, 'decPI')
         pQ = dM.decPI;
@@ -101,7 +103,8 @@ for powerN = 1:nPowers;
 				biggestBlock = blockN;
 			end
         end
-        xPoints = power + ((1:biggestBlock)./biggestBlock - .5)*chunkWidth*xScale;
+        %xPoints = power + ((1:biggestBlock)./biggestBlock - .5)*chunkWidth*xScale;
+		xPoints = (powerN - 1 + ((1:biggestBlock)./biggestBlock - .5)*chunkWidth)*xScale;
         h = joeArea(xPoints,blockMeans-blockStErrs,blockMeans+blockStErrs);
         set(h,'EdgeColor','none','FaceColor',lineColor,'FaceAlpha',.2);
         hold on;
@@ -119,7 +122,8 @@ for powerN = 1:nPowers;
             pQs = pQ(ix);
             laneMean = nanmean(pQs);
             laneErr = nanstd(pQs)/sqrt(numFound);
-            x = power+(laneN/8 -.5)*chunkWidth*xScale;
+            % x = power+(laneN/8 -.5)*chunkWidth*xScale;
+			x = (powerN - 1 +(laneN/8 -.5)*chunkWidth)*xScale;
             tickWidth = .2;
             line([x x],[-laneErr, laneErr]+laneMean,'Color',pretty(laneN),'LineWidth',bigLineWidths); hold on;
             line(x + tickWidth/2.*[-1 1],laneMean+[0,0],'Color',pretty(laneN),'LineWidth',bigLineWidths);

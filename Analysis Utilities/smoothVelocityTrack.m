@@ -4,4 +4,4 @@ function smoothVel = smoothVelocityTrack(scaledTrack)
     smoothSamples = 5;
 
     smoothTrack = smooth(scaledTrack,smoothSamples);  
-    smoothVel = diff(smoothTrack)./sampleTime;
+    smoothVel = [diff(smoothTrack);0]./sampleTime;

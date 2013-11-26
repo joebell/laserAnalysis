@@ -1,4 +1,4 @@
-function laserPlotDensityStates(expList,useEpochs, lanesToUse, axesArray)
+function laserPlotStateSpeeds(expList, useEpochs, lanesToUse, axesArray)
 
 fontSize = 6;
 timeSampleInterval = .1;
@@ -6,6 +6,7 @@ minTravelDistance = 5; % mm
 % lanesToUse = [1:8];
 
 xBins = -25:1:25;
+xBinEdges = [xBins(1)-.5,xBins+.5];
 NxBins = size(xBins,2);
 xSpan = xBins(end)-xBins(1);
 hSpacing = 15;
@@ -29,7 +30,7 @@ end
 powerList = unique(laserPowers);
 Npowers = size(powerList,2);
 
-Ntot = zeros(Nplots, Npowers, 2, NxBins);
+Ntot = cell(Nplots,Npowers,2,NxBins);
 
 for expNn = 1:size(expList,2)
     expN = expList(expNn);
@@ -53,11 +54,15 @@ for expNn = 1:size(expList,2)
             dTraveled = sum(abs(diff(xTrack)));
             if (dTraveled > minTravelDistance) % Screen out stationary tracks
                 stateSequence = identifyStates(xTrack);
-
-                for stateN = statesList
-                    ix = find(stateSequence == stateN);
-                    N(1,1,1,:) = hist(xTrack(ix),xBins);
-                    Ntot(stateN,powerN,topN,:) = Ntot(stateN,powerN,topN,:) + N;
+				smoothVel = smoothVelocityTrack(xTrack);
+				[n,XbinIdx] = histc(xTrack,xBinEdges);
+                for stateN = statesList					
+					for binN = 1:NxBins
+						ix = find((XbinIdx == binN) & (stateSequence == stateN));
+						existingVelList = Ntot{stateN,powerN,topN,binN};
+						newVelList = smoothVel(ix);
+						Ntot{stateN,powerN,topN,binN} = [existingVelList;newVelList];
+					end		                  
                 end
             else
                 disp('Discarded stationary track.');
@@ -66,22 +71,36 @@ for expNn = 1:size(expList,2)
     end
 end
 
+for stateN = statesList
+	for powerN = 1:Npowers
+		for topN = 1:2
+			for xBinN = 1:NxBins
+				velList = Ntot{stateN,powerN,topN,xBinN};
+				aVel = nanmean(velList);
+				meanVel(stateN,powerN,topN,xBinN) = aVel;
+			end
+		end
+	end
+end
 
-maxDensity = max(Ntot(:));
+
+
+
+maxVel = max(meanVel(:));
 for stateN = statesList
     axes(axesArray(stateN));
     for powerN = 1:Npowers
         plotColor = [powerN/Npowers 0 0];
-        plot(xBins, -squeeze(Ntot(stateN,powerN,1,:))./maxDensity,'Color',plotColor);
+        plot(xBins, -squeeze(meanVel(stateN,powerN,1,:)),'Color',plotColor);
         hold on;
-        plot(xBins, squeeze(Ntot(stateN,powerN,2,:))./maxDensity,'Color',plotColor);
+        plot(xBins,  squeeze(meanVel(stateN,powerN,2,:)),'Color',plotColor);
     end
     title(stateDescriptions{stateN},'FontSize',fontSize);
     xlim([-25 25]);
     xlabel('X (mm)','FontSize',fontSize);
 end
 axes(axesArray(1));
-ylabel('P','FontSize',fontSize);
+ylabel('V (mm/sec)','FontSize',fontSize);
 
 ylims1 = ylim();
 axes(axesArray(3));

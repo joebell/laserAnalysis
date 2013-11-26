@@ -1,6 +1,6 @@
 function laserMasterPlot2(plotTitle, expList, useEpochs, useLanes)
 
-    dM = makeDataMatrix(expList);
+    dM = makeDataMatrix(expList,useEpochs);
     
     nRows = 7;
     nCols = 3;

@@ -1,12 +1,12 @@
 function sproutPlotNonAligned() 
 
 timeSampleInterval = .05;
-plotLength = 60/timeSampleInterval;    % Samples
-previewLength = 0/timeSampleInterval; % Samples
+plotLength = round(60/timeSampleInterval);    % Samples
+previewLength = round(0/timeSampleInterval);  % Samples
 filterCorner = .1;
 nCols = 7;
 
-fileList = (4765+14*4):(4765+14*9-1);
+fileList = returnFileList('130515-');
 % fileList = 4341+14*5;
 useEpochs = 2;
 
@@ -225,8 +225,8 @@ for rowN = 1:size(exp.laserPowers,2)
 end
 
 
-figList = [sproutFig,posFig,speedFig,angSpeedFig,totalPosFig,totalSpeedFig,totalAngSpeedFig];
-saveMultiPage(figList, 'sproutPlot.pdf', [true,false,false,false,true,true,true]);
+%figList = [sproutFig,posFig,speedFig,angSpeedFig,totalPosFig,totalSpeedFig,totalAngSpeedFig];
+%saveMultiPage(figList, 'sproutPlot.pdf', [true,false,false,false,true,true,true]);
 
 
 

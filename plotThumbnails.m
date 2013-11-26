@@ -1,14 +1,17 @@
-function plotThumbnails(expList, title, useLanes)
+function plotThumbnails(expList, title, useLanes, useEpochs)
+
     
     timeSampleInterval = .1;
     
-    dM = makeDataMatrix(expList);
+    dM = makeDataMatrix(expList,useEpochs);
     numPoints = size(dM.PI,2);
     laserPowers = dM.conc(:,1)';
     powerList = unique(laserPowers);
     nPowers = size(powerList,2);
     nReps = ceil(size(expList,2)/nPowers);
 	zeroRepIdx = 1;
+
+	usePowers = 1:nPowers;
 
 	repNumbers = ones(2,nPowers);
 	repNumbers(2,:) = repNumbers(2,:) + 1;
@@ -38,25 +41,33 @@ function plotThumbnails(expList, title, useLanes)
 					lEpoch = -1;
 				end
             end
+
+		if sum(powerN == usePowers) > 0
         
-        originX = (repN-1)*60*4;
-        originY = -(powerN-1)*9*60;
-        text(originX,originY+20,num2str(expN),'FontSize',6,...
-            'HorizontalAlignment','left','VerticalAlignment','bottom');
-        hold on;
-        plotBG(originX,originY,lEpoch);
-        % Resample data
-        bodyX = resample(exp.wholeTrack.bodyX,0:timeSampleInterval:exp.wholeTrack.bodyX.Time(end));
-        headX = resample(exp.wholeTrack.headX,0:timeSampleInterval:exp.wholeTrack.headX.Time(end));
-        tTrack = bodyX.Time;
-        for flyN=useLanes
-            yAdj = -(flyN-1)*60;
-            xTrack = bodyX.Data(:,flyN) + headX.Data(:,flyN);           
-            plot(tTrack+originX,xTrack+yAdj+originY,'Color',pretty(flyN));
-        end
-        set(gca,'XTick',[],'YTick',[],'ZTick',[]);
-        box off;
-        axis tight;
+		    originX = (repN-1)*60*4;
+		    originY = -(powerN-1)*9*60;
+		    text(originX,originY+20,num2str(expN),'FontSize',6,...
+		        'HorizontalAlignment','left','VerticalAlignment','bottom');
+		    hold on;
+			if isfield(exp,'trainingEpochs')
+		    	plotBGShock(originX,originY,lEpoch);
+			else
+				plotBG(originX,originY,lEpoch);
+			end
+		    % Resample data
+		    bodyX = resample(exp.wholeTrack.bodyX,0:timeSampleInterval:exp.wholeTrack.bodyX.Time(end));
+		    headX = resample(exp.wholeTrack.headX,0:timeSampleInterval:exp.wholeTrack.headX.Time(end));
+		    tTrack = bodyX.Time;
+		    for flyN=useLanes
+		        yAdj = -(flyN-1)*60;
+		        xTrack = bodyX.Data(:,flyN) + headX.Data(:,flyN);           
+		        plot(tTrack+originX,xTrack+yAdj+originY,'Color',pretty(flyN));
+		    end
+		    set(gca,'XTick',[],'YTick',[],'ZTick',[]);
+		    box off;
+		    axis tight;
+
+		end
     end
     
     for powerN = 1:nPowers

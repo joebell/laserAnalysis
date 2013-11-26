@@ -1,7 +1,7 @@
 function sproutPlot(plotTitle, fileList, useEpochs, useLanes, usePowers) 
 
 timeSampleInterval = .05;
-plotLength = 16/timeSampleInterval;    % Samples
+plotLength = 30/timeSampleInterval;    % Samples
 previewLength = 2/timeSampleInterval; % Samples
 filterCorner = .25;
 nCols = 7;

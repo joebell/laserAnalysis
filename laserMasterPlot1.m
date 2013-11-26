@@ -1,6 +1,6 @@
 function laserMasterPlot1(plotTitle, expList, useEpochs,useLanes)
 
-    dM = makeDataMatrix(expList);
+    dM = makeDataMatrix(expList, useEpochs);
     
     nRows = 8;
     nCols = 3;
@@ -11,13 +11,13 @@ rowN = 1;
 colN = 1;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, useLanes, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'PI',20,'b',false,false,false,true,true,true);
+    laserPowerSeriesFlex(dM,useLanes,'PI',5,'b',false,false,false,true,true,true);
     
 rowN = 1;
 colN = 2;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'PI',20,'k',false,true,false,false,false,false);
+    laserPowerSeriesFlex(dM,useLanes,'PI',5,'k',false,true,false,false,false,false);
 
 % Move title up
 h = title(plotTitle,'HorizontalAlignment','center','VerticalAlignment','bottom','FontSize',10);
@@ -28,7 +28,7 @@ rowN = 1;
 colN = 3;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'PI',20,'b',false,false,true,false,false,false);
+    laserPowerSeriesFlex(dM,useLanes,'PI',5,'b',false,false,true,false,false,false);
     
 %% Plot Decision based PI's     
 
@@ -36,20 +36,20 @@ rowN = 2;
 colN = 1;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'decPI',20,'b',false,false,false,true,true,true);
+    laserPowerSeriesFlex(dM,useLanes,'decPI',5,'b',false,false,false,true,true,true);
 
    
 rowN = 2;
 colN = 2;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'decPI',20,'k',false,true,false,false,false,false);
+    laserPowerSeriesFlex(dM,useLanes,'decPI',5,'k',false,true,false,false,false,false);
     
 rowN = 2;
 colN = 3;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'decPI',20,'b',false,false,true,false,false,false);    
+    laserPowerSeriesFlex(dM,useLanes,'decPI',5,'b',false,false,true,false,false,false);    
     
 
 %% Plot Number of decisions
@@ -58,20 +58,20 @@ rowN = 3;
 colN = 1;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'numDec',20,'b',false,false,false,true,true,true);
+    laserPowerSeriesFlex(dM,useLanes,'numDec',5,'b',false,false,false,true,true,true);
 
    
 rowN = 3;
 colN = 2;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'numDec',20,'k',false,true,false,false,false,false);
+    laserPowerSeriesFlex(dM,useLanes,'numDec',5,'k',false,true,false,false,false,false);
     
 rowN = 3;
 colN = 3;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'numDec',20,'b',false,false,true,false,false,false);      
+    laserPowerSeriesFlex(dM,useLanes,'numDec',5,'b',false,false,true,false,false,false);      
     
     
     
@@ -81,19 +81,19 @@ rowN = 4;
 colN = 1;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'dTraveled',20,'b',false,false,false,true,true,true);
+    laserPowerSeriesFlex(dM,useLanes,'dTraveled',5,'b',false,false,false,true,true,true);
     
 rowN = 4;
 colN = 2;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'dTraveled',20,'k',false,true,false,false,false,false);
+    laserPowerSeriesFlex(dM,useLanes,'dTraveled',5,'k',false,true,false,false,false,false);
     
 rowN = 4;
 colN = 3;
 subplot(nRows,nCols,(rowN-1)*nCols + colN);
 % function laserPowerSeriesFlex(dM, plotQuantity, travelThreshold, scatters, timeTrend, laneAvg, grandMean, LR)
-    laserPowerSeriesFlex(dM,useLanes,'dTraveled',20,'b',false,false,true,false,false,false);
+    laserPowerSeriesFlex(dM,useLanes,'dTraveled',5,'b',false,false,true,false,false,false);
  
 
 
@@ -116,7 +116,7 @@ laserPlotDensityStates(expList, useEpochs, useLanes, axesArray);
 rowN = 7:8;
 colN = 1;
 subplot(nRows,nCols,[(rowN(1)-1)*nCols + colN,(rowN(2)-1)*nCols + colN]);
-AllStateProbs = plotStateTransitions(expList, useLanes);
+AllStateProbs = plotStateTransitions(expList, useLanes, useEpochs);
 P = get(gca,'OuterPosition');
 set(gca,'OuterPosition',P .* [1 1 1.15 .95]);
 

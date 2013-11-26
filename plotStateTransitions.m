@@ -1,12 +1,9 @@
-function AllStateProbs = plotStateTransitions(expList, useLanes)
+function AllStateProbs = plotStateTransitions(expList, useLanes, useEpochs)
 
     fontSize = 6;
     useColormap = fireAndIce();
 	timeSampleInterval = .1;
     
-    % useLanes = 1:8;
-    lEpoch = 2;
-    rEpoch = 4;
     countThreshold = 10;     % Don't show probabilities based on fewer counts
     
     xBins = -25:1:25;
@@ -44,61 +41,65 @@ function AllStateProbs = plotStateTransitions(expList, useLanes)
 		elseif (exp.laserParams(1) == exp.laserParams(2))
 			lEpoch = randi(2)*2 - 3;
 		end
-        % Resample data
-		bodyX = resample(exp.epoch(2).track.bodyX,0:timeSampleInterval:exp.epoch(2).track.bodyX.Time(end));
-		headX = resample(exp.epoch(2).track.headX,0:timeSampleInterval:exp.epoch(2).track.headX.Time(end));
-		tTrack = bodyX.Time;
+
+		for epochN = useEpochs
+
+		    % Resample data
+			bodyX = resample(exp.epoch(epochN).track.bodyX,0:timeSampleInterval:exp.epoch(epochN).track.bodyX.Time(end));
+			headX = resample(exp.epoch(epochN).track.headX,0:timeSampleInterval:exp.epoch(epochN).track.headX.Time(end));
+			tTrack = bodyX.Time;
 	
-        
-        % Get the current left and right counts
-        StateCountsL = squeeze(AllStateCounts(powerN,1,:,:,:));
-        StateCountsR = squeeze(AllStateCounts(powerN,2,:,:,:));
-        
-        for laneN = useLanes
+		    
+		    % Get the current left and right counts
+		    StateCountsL = squeeze(AllStateCounts(powerN,1,:,:,:));
+		    StateCountsR = squeeze(AllStateCounts(powerN,2,:,:,:));
+		    
+		    for laneN = useLanes
+		        
+				if (lEpoch == 1)
+				    % Do left epoch
+				    % Resample data
+					xTrack = bodyX.Data(:,laneN) + headX.Data(:,laneN);
+				    stateSequence = identifyStates(xTrack);
+				    nextState = stateSequence(2:end);
+				    thisState = stateSequence(1:(end-1));
+				    for fromState = 1:3
+				        for toState = 1:3
+				            ix = find((thisState == fromState)&(nextState == toState));
+				            xLocs = xTrack(ix);
+				            xBinIndices = dsearchn(xBins',xLocs);
+				            if (size(xBinIndices,1) > 0)
+				                for xBinIndexN=1:size(xBinIndices,1)
+				                    xBinIndex = xBinIndices(xBinIndexN);
+				                    StateCountsL(fromState,xBinIndex,toState) =...
+				                        StateCountsL(fromState,xBinIndex,toState)+1;
+				                end
+				            end
+				        end
+				    end
+				end
             
-			if (lEpoch == 1)
-		        % Do left epoch
-		        % Resample data
-				xTrack = bodyX.Data(:,laneN) + headX.Data(:,laneN);
-		        stateSequence = identifyStates(xTrack);
-		        nextState = stateSequence(2:end);
-		        thisState = stateSequence(1:(end-1));
-		        for fromState = 1:3
-		            for toState = 1:3
-		                ix = find((thisState == fromState)&(nextState == toState));
-		                xLocs = xTrack(ix);
-		                xBinIndices = dsearchn(xBins',xLocs);
-		                if (size(xBinIndices,1) > 0)
-		                    for xBinIndexN=1:size(xBinIndices,1)
-		                        xBinIndex = xBinIndices(xBinIndexN);
-		                        StateCountsL(fromState,xBinIndex,toState) =...
-		                            StateCountsL(fromState,xBinIndex,toState)+1;
-		                    end
-		                end
-		            end
-		        end
-			end
-            
-			if (lEpoch == -1)
-		        % Do right epoch
-		        xTrack = bodyX.Data(:,laneN) + headX.Data(:,laneN);
-		        stateSequence = identifyStates(xTrack);
-		        nextState = stateSequence(2:end);
-		        thisState = stateSequence(1:(end-1));
-		        for fromState = 1:3
-		            for toState = 1:3
-		                ix = find((thisState == fromState)&(nextState == toState));
-		                xLocs = xTrack(ix);
-		                xBinIndices = dsearchn(xBins',xLocs);
-		                if (size(xBinIndices,1) > 0)
-		                    for xBinIndexN=1:size(xBinIndices,1)
-		                        xBinIndex = xBinIndices(xBinIndexN);
-		                        StateCountsR(fromState,xBinIndex,toState) =...
-		                            StateCountsR(fromState,xBinIndex,toState)+1;
-		                    end
-		                end
-		            end
-		        end
+				if (lEpoch == -1)
+				    % Do right epoch
+				    xTrack = bodyX.Data(:,laneN) + headX.Data(:,laneN);
+				    stateSequence = identifyStates(xTrack);
+				    nextState = stateSequence(2:end);
+				    thisState = stateSequence(1:(end-1));
+				    for fromState = 1:3
+				        for toState = 1:3
+				            ix = find((thisState == fromState)&(nextState == toState));
+				            xLocs = xTrack(ix);
+				            xBinIndices = dsearchn(xBins',xLocs);
+				            if (size(xBinIndices,1) > 0)
+				                for xBinIndexN=1:size(xBinIndices,1)
+				                    xBinIndex = xBinIndices(xBinIndexN);
+				                    StateCountsR(fromState,xBinIndex,toState) =...
+				                        StateCountsR(fromState,xBinIndex,toState)+1;
+				                end
+				            end
+				        end
+				    end
+				 end
 			end
             
         end

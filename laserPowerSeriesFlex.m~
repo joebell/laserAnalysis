@@ -3,6 +3,8 @@ function laserPowerSeriesFlex(dM, useLanes, plotQuantity, travelThreshold, lineC
     laneSwitches = zeros(8,1);
     laneSwitches(useLanes) = 1;
 
+%	adaptTarget = 4;
+
     refLineOn = false;
     if strcmp(plotQuantity,'dTraveled')
         pQ = dM.dTraveled;
@@ -75,6 +77,7 @@ for powerN = 1:nPowers;
                 ix = find((laserPowers == power)&...
                     (dM.dTraveled > travelThreshold)&...
                     (dM.isOdor)&(dM.lane == laneN)&...
+%(dM.adaptDelay == adaptTarget)&...
                     (laneSwitches(dM.lane))');
                 numFound = size(ix,2);
                 pQs = pQ(ix);
@@ -92,6 +95,7 @@ for powerN = 1:nPowers;
         for blockN = 1:nBlocks
             ix = find((laserPowers == power)&...
                 (dM.dTraveled > travelThreshold)&...
+%(dM.adaptDelay == adaptTarget)&...
                 (dM.isOdor)&(blockNs == blockN)&(laneSwitches(dM.lane))');
             numFound = size(ix,2);
             pQs = pQ(ix);
@@ -101,7 +105,8 @@ for powerN = 1:nPowers;
 				biggestBlock = blockN;
 			end
         end
-        xPoints = power + ((1:biggestBlock)./biggestBlock - .5)*chunkWidth*xScale;
+        %xPoints = power + ((1:biggestBlock)./biggestBlock - .5)*chunkWidth*xScale;
+		xPoints = (powerN - 1 + ((1:biggestBlock)./biggestBlock - .5)*chunkWidth)*xScale;
         h = joeArea(xPoints,blockMeans-blockStErrs,blockMeans+blockStErrs);
         set(h,'EdgeColor','none','FaceColor',lineColor,'FaceAlpha',.2);
         hold on;
@@ -114,12 +119,14 @@ for powerN = 1:nPowers;
         for laneN = 1:8
             ix = find((laserPowers == power)&...
                 (dM.dTraveled > travelThreshold)&...
+%(dM.adaptDelay == adaptTarget)&...
                 (dM.isOdor)&(dM.lane == laneN)&(laneSwitches(dM.lane))');
             numFound = size(ix,2);
             pQs = pQ(ix);
             laneMean = nanmean(pQs);
             laneErr = nanstd(pQs)/sqrt(numFound);
-            x = power+(laneN/8 -.5)*chunkWidth*xScale;
+            % x = power+(laneN/8 -.5)*chunkWidth*xScale;
+			x = (powerN - 1 +(laneN/8 -.5)*chunkWidth)*xScale;
             tickWidth = .2;
             line([x x],[-laneErr, laneErr]+laneMean,'Color',pretty(laneN),'LineWidth',bigLineWidths); hold on;
             line(x + tickWidth/2.*[-1 1],laneMean+[0,0],'Color',pretty(laneN),'LineWidth',bigLineWidths);
@@ -131,6 +138,7 @@ for powerN = 1:nPowers;
     if plotLRBreakouts
     	ix = find((laserPowers == power)&...
                 (dM.dTraveled > travelThreshold)&...
+%(dM.adaptDelay == adaptTarget)&...
                 (dM.isOdor)&(dM.leftEpoch == 1)&(laneSwitches(dM.lane))');
         numFound = size(ix,2);
         pQs = pQ(ix);
@@ -139,6 +147,7 @@ for powerN = 1:nPowers;
         
         ix = find((laserPowers == power)&...
                 (dM.dTraveled > travelThreshold)&...
+%(dM.adaptDelay == adaptTarget)&...
                 (dM.isOdor)&(dM.leftEpoch == -1)&(laneSwitches(dM.lane))');
         numFound = size(ix,2);
         pQs = pQ(ix);
@@ -159,6 +168,7 @@ for powerN = 1:nPowers;
     % Plot the grand means
     ix = find((laserPowers == power)&...
         (dM.dTraveled > travelThreshold)&...
+%(dM.adaptDelay == adaptTarget)&...
         (dM.isOdor)&(laneSwitches(dM.lane))');
     numFound = size(ix,2);
     pQs = pQ(ix);   

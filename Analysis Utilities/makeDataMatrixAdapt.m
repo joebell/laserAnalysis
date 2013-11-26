@@ -1,4 +1,4 @@
-function dataMatrix = makeDataMatrix(fileList, useEpochs) 
+function dataMatrix = makeDataMatrixAdapt(fileList, useEpochs) 
 
 resamplePeriod = .1; % Resample data on this interval (sec)
 
@@ -14,6 +14,7 @@ dataMatrix.dTraveled = [];
 dataMatrix.isOdor = [];
 dataMatrix.decPI = [];          % PI from decision count
 dataMatrix.numDec = [];         % Number of decisions made
+dataMatrix.adaptDelay = [];
 
 orderList = 1:size(fileList,2);
 for order = orderList
@@ -116,6 +117,7 @@ for order = orderList
 		            dataMatrix.decPI(end+1) = NaN;          
 		            dataMatrix.numDec(end+1) = 0; 
 		        end
+				dataMatrix.adaptDelay(end+1) = exp.laserParams(3);
             
         end
      end

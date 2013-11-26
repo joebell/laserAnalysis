@@ -1,12 +1,9 @@
-function AllStateProbs = plotStateTransitions(expList, useLanes)
+function AllStateProbs = plotStateTransitions(expList, useLanes, useEpochs)
 
     fontSize = 6;
     useColormap = fireAndIce();
 	timeSampleInterval = .1;
     
-    % useLanes = 1:8;
-    lEpoch = 2;
-    rEpoch = 4;
     countThreshold = 10;     % Don't show probabilities based on fewer counts
     
     xBins = -25:1:25;
