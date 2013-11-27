@@ -1,3 +1,5 @@
+% Updating for orchestra
+
 function laserMasterPlot1(plotTitle, expList, useEpochs,useLanes)
 
     dM = makeDataMatrix(expList, useEpochs);
