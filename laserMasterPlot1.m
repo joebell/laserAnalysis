@@ -1,4 +1,5 @@
 % Updating for orchestra
+% Testing GitHub credentials
 
 function laserMasterPlot1(plotTitle, expList, useEpochs,useLanes)
 
