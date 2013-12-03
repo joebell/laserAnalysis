@@ -27,11 +27,14 @@ function crunchPDF()
                 figure(handles(panelN));
                 set(handles(panelN),'Visible','on');
                 if (panelN == 2)
-                    savePDF('t2.pdf');
+                    savePDF('t2.pdf',false);
+		elseif (panelN == 1)
+		    saveTallPDF(['t',num2str(panelN),'.pdf'],true);
                 else
-                    saveTallPDF(['t',num2str(panelN),'.pdf']);
+                    saveTallPDF(['t',num2str(panelN),'.pdf'],false);
                 end
                 catCMD = [catCMD,'t',num2str(panelN),'.pdf '];
+		close(handles(panelN));
             end
             close all;
             

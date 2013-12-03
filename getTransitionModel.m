@@ -4,7 +4,7 @@ function [laserOffProb,laserOnProb] = getTransitionModel(ASC,timeChunk,powerN)
 			laserL = 1;
 			laserR = 2;
 			arenaLength = size(ASC,4);
-			endExclude = 5;	% Bins
+			endExclude = 2;	% Bins
 			leftSide = (1+endExclude):ceil(arenaLength/2);
 			rightSide = ceil(arenaLength/2):(arenaLength-endExclude); % Exclude ends
 
@@ -31,3 +31,6 @@ function [laserOffProb,laserOnProb] = getTransitionModel(ASC,timeChunk,powerN)
 
 			end
 			end
+
+
+

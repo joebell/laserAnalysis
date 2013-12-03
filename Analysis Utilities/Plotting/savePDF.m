@@ -1,5 +1,10 @@
-function savePDF(filenameOut)
+function savePDF(filenameOut,varargin)
 
+	if nargin > 1
+		highRes = varargin{1};
+	else
+		highRes = false;
+	end
 
         set(gcf, 'Color', 'white');
         set(gcf, 'InvertHardcopy','off');
@@ -9,4 +14,9 @@ function savePDF(filenameOut)
         set(gcf, 'PaperUnits', 'inches');
         set(gcf, 'PaperSize', [11 8.5])
         set(gcf, 'PaperPosition', [0 0 11 8.5]);
-        print(gcf, '-dpdf','-r300',filenameOut);
+	
+	if highRes
+        	print(gcf, '-dpdf','-r300',filenameOut);
+	else
+		print(gcf,'-dpdf',filenameOut);
+	end

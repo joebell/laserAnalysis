@@ -6,7 +6,7 @@ function batchMasterPlots(expList)
 
 	jm = findResource('scheduler','type','lsf');
 	set(jm,'ClusterMatlabRoot','/opt/matlab');
-	job = creatJob(jm);
+	job = createJob(jm);
 	set(jm,'SubmitArguments','-W 12:00 -q short');
 
 	for expNn = 1:length(expList)
@@ -14,12 +14,13 @@ function batchMasterPlots(expList)
 	
 		fileList = fileListFromExpNum(expN);
 		loadData(fileList(1));
-		plotTitle = [exp.experimentName,'  -  ',exp.genotype];
+		shortName = strrep(exp.experimentName,'-singleSideSeriesShort','');
+		plotTitle = [shortName,' - ',exp.genotype];
 		disp(['Scheduling for Fig Generation: ',plotTitle]);
-		fileName = strrep(exp.experimentName,'-singleSideSeriesShort','');
+		fileName = shortName;
 		plotArgs = {plotTitle,fileList,epochList,laneList,fileName};
 
-		createTask(job, @laserMasterPlots, plotArgs);
+		createTask(job, @laserMasterPlots, 0, plotArgs);
 	end
 
 	submit(job);
