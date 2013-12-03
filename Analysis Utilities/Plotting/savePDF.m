@@ -9,4 +9,4 @@ function savePDF(filenameOut)
         set(gcf, 'PaperUnits', 'inches');
         set(gcf, 'PaperSize', [11 8.5])
         set(gcf, 'PaperPosition', [0 0 11 8.5]);
-        print(gcf, '-dpdf',filenameOut);
+        print(gcf, '-dpdf','-r300',filenameOut);

@@ -9,5 +9,5 @@ function saveTallPDF(filenameOut)
         set(gcf, 'PaperUnits', 'inches');
         set(gcf, 'PaperSize', [8.5 11])
         set(gcf, 'PaperPosition', [0 0 8.5 11]);
+
         print(gcf, '-dpdf','-r300',filenameOut);
-		% print(gcf,'-dpdf',filenameOut);
