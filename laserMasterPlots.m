@@ -18,7 +18,7 @@ function laserMasterPlots(plotTitle, expList, useEpochs,useLanes, fileName)
     sproutPlot(plotTitle, expList, useEpochs, useLanes, [1,3,5,7]);
     set(h4,'visible','off');
 
-    h5 = figure('visible','off);
+    h5 = figure('visible','off');
     laserMasterPlot5(expList,useEpochs,useLanes);
     set(h5,'visible','off');
 
