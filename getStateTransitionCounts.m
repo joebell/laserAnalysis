@@ -17,7 +17,7 @@ function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
 
 	nPerPower = zeros(Npowers,1);
 	nPerChunk = 2;
-	maxChunks = length(expList)/(Npowers*nPerChunk);
+	maxChunks = ceil(length(expList)/(Npowers*nPerChunk));
        
     % Zero out the state counts   
     % [PowerN, [LaserL|LaserR], [From],[X],[To],[TimeChunk]    
