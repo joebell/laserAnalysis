@@ -40,8 +40,8 @@ function laserMasterPlot5(fileList, useEpochs, useLanes)
 	end
 
 	subplot(6,6,13);
-	xlabel(['{Power \rightarrow}']);
-	ylabel({'{\leftarrow Time  }','{\itP}{( \rightarrow )}'});
+	xlabel(['{\color{black}Power \rightarrow}']);
+	ylabel({'{\color{black}\leftarrow Time  }','{\color{black}{\itP}{( \rightarrow )}}'});
 	subplot(6,6,1);
 	title('{\itP}{(...| \leftarrow, L-on)}');
 	subplot(6,6,2);
@@ -56,9 +56,9 @@ function laserMasterPlot5(fileList, useEpochs, useLanes)
 	title('{\itP}{(...| \rightarrow, L-off)}');
 	
 	subplot(6,6,1);
-	ylabel({' ','{\itP}{( \leftarrow )}'});
+	ylabel({' ','{\color{black}{\itP}{( \leftarrow )}}'});
 	subplot(6,6,7);
-	ylabel({' ','{\itP}{( \oslash )}'});
+	ylabel({' ','{\color{black}{\itP}{( \oslash )}}'});
 
 	subplot(6,6,19:36);
 	dM = makeDataMatrix(fileList,useEpochs);
