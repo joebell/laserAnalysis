@@ -7,13 +7,14 @@ function batchMasterPlots(expList)
 	jm = findResource('scheduler','type','lsf');
 	set(jm,'ClusterMatlabRoot','/opt/matlab');
 	job = createJob(jm);
-	set(jm,'SubmitArguments','-W 12:00 -q short');
+	set(jm,'SubmitArguments','-R "rusage[matlab_dc_lic=1]" -W 12:00 -q short');
 
 	for expNn = 1:length(expList)
 		expN = expList(expNn);
 	
-		fileList = fileListFromExpNum(expN);
-		loadData(fileList(1));
+		displayOn = false;	
+		fileList = fileListFromExpNum(expN,displayOn);
+		loadData(fileList(1),displayOn);
 		shortName = strrep(exp.experimentName,'-singleSideSeriesShort','');
 		plotTitle = [shortName,' - ',exp.genotype];
 		disp(['Scheduling for Fig Generation: ',plotTitle]);
