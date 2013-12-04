@@ -1,7 +1,10 @@
 % script
 
-expList = returnFileList('131124-100739-');
-name = '131124-Gr21a';
+% expList = returnFileList('131124-100739-');
+% name = '131124-Gr21a';
+
+expList = returnFileList('131127-103320-');
+name = '131127-Gr21aHP';
 
 dM = makeDataMatrix(expList,2); 
 ASC = getStateTransitionCounts(expList(1:112),1:8,2);
@@ -9,6 +12,8 @@ compareStateTransitionModels(dM,ASC); title(name);
 savePDF([name,'-STM.pdf']); close all;
 transitionsThroughTime(ASC); title(name);
 savePDF([name,'-T.pdf']); close all;
+
+return;
 
 expList = returnFileList('131124-190203-');
 name = '131124-Ir40a';
