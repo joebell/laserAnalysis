@@ -10,7 +10,7 @@ function val = getGenotype(key)
 	end
 
 	if isnumeric(key)
-		val = genoList{key};
+		val = genoList(key);
 	else
 		val = genoMap(key);
 	end
