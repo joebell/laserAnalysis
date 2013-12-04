@@ -28,13 +28,12 @@ function laserMasterPlot5(fileList, useEpochs, useLanes)
 		% Plot Laser Offs on RIGHT
 		subplot(6,6,(toState - 1)*6 + fromState + 3);
 		image(squeeze(allOffProbs(:,:,toState,fromState) - meanVal),'CDataMapping','scaled');
-		set(gca,'YDir','reverse','XTick',[],'YTick',[],'XColor','r','YColor','r','LineWidth',3);
+		set(gca,'YDir','reverse','XTick',[],'YTick',[]);
 		caxis([-1 1].*cLim);
-		axis off;
 		% Plot Laser Ons on left
 		subplot(6,6,(toState - 1)*6 + fromState);	
 		image(squeeze(allOnProbs(:,:,toState,fromState) - meanVal),'CDataMapping','scaled');
-		set(gca,'YDir','reverse','XTick',[],'YTick',[],'XColor','r','YColor','r','LineWidth',3);
+		set(gca,'YDir','reverse','XTick',[],'YTick',[],'XColor','r','YColor','r','LineWidth',1);
 		caxis([-1 1].*cLim);
 	end
 	end
