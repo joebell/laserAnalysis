@@ -25,15 +25,16 @@ function laserMasterPlot5(fileList, useEpochs, useLanes)
 	for toState = 1:3
 		meanVal = mean(mean([squeeze(allOffProbs(:,:,toState,fromState)),...
 				     squeeze( allOnProbs(:,:,toState,fromState))]));
-		% Plot Laser Offs
-		subplot(6,6,(toState - 1)*6 + fromState);
+		% Plot Laser Offs on RIGHT
+		subplot(6,6,(toState - 1)*6 + fromState + 3);
 		image(squeeze(allOffProbs(:,:,toState,fromState) - meanVal),'CDataMapping','scaled');
-		set(gca,'YDir','reverse','XTick',[],'YTick',[]);
+		set(gca,'YDir','reverse','XTick',[],'YTick',[],'XColor','r','YColor','r','LineWidth',3);
 		caxis([-1 1].*cLim);
-		% Plot Laser Ons
-		subplot(6,6,(toState - 1)*6 + fromState + 3);	
+		axis off;
+		% Plot Laser Ons on left
+		subplot(6,6,(toState - 1)*6 + fromState);	
 		image(squeeze(allOnProbs(:,:,toState,fromState) - meanVal),'CDataMapping','scaled');
-		set(gca,'YDir','reverse','XTick',[],'YTick',[]);
+		set(gca,'YDir','reverse','XTick',[],'YTick',[],'XColor','r','YColor','r','LineWidth',3);
 		caxis([-1 1].*cLim);
 	end
 	end
@@ -42,17 +43,17 @@ function laserMasterPlot5(fileList, useEpochs, useLanes)
 	xlabel(['{Power \rightarrow}']);
 	ylabel({'{\leftarrow Time  }','{\itP}{( \rightarrow )}'});
 	subplot(6,6,1);
-	title('{\itP}{(...| \leftarrow, L-off)}');
-	subplot(6,6,2);
-	title('{\itP}{(...| \oslash, L-off)}');
-	subplot(6,6,3);
-	title('{\itP}{(...| \rightarrow, L-off)}');
-	subplot(6,6,4);
 	title('{\itP}{(...| \leftarrow, L-on)}');
-	subplot(6,6,5);
+	subplot(6,6,2);
 	title('{\itP}{(...| \oslash, L-on)}');
-	subplot(6,6,6);
+	subplot(6,6,3);
 	title('{\itP}{(...| \rightarrow, L-on)}');
+	subplot(6,6,4);
+	title('{\itP}{(...| \leftarrow, L-off)}');
+	subplot(6,6,5);
+	title('{\itP}{(...| \oslash, L-off)}');
+	subplot(6,6,6);
+	title('{\itP}{(...| \rightarrow, L-off)}');
 	
 	subplot(6,6,1);
 	ylabel({' ','{\itP}{( \leftarrow )}'});
