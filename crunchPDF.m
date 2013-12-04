@@ -27,16 +27,19 @@ function crunchPDF()
                 figure(handles(panelN));
                 set(handles(panelN),'Visible','on');
                 if (panelN == 2)
-                    savePDF('t2.pdf',false);
-		elseif (panelN == 1)
-		    saveTallPDF(['t',num2str(panelN),'.pdf'],true);
+                    savePDF('t2.pdf',true);
+				elseif (panelN == 1)
+					fixPlot1(handles(panelN));
+					saveTallPDF(['t',num2str(panelN),'.pdf'],true);
                 else
-                    saveTallPDF(['t',num2str(panelN),'.pdf'],false);
+                    saveTallPDF(['t',num2str(panelN),'.pdf'],true);
                 end
                 catCMD = [catCMD,'t',num2str(panelN),'.pdf '];
-		close(handles(panelN));
+				close(handles(panelN));
             end
             close all;
+
+
             
             % Concatenate them with pdftk
             catCMD = [catCMD,' cat output ',destDir,figList(figN).name,'.pdf'];
