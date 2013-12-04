@@ -7,7 +7,7 @@ allData = [];
 % For each file in the list do some analysis
 for expNn = 1:length(expList)
 	expN = expList(expNn);
-	genotypeN = getGenotype(genotypeStrings);
+	genotypeN = getGenotype(genotypeStrings{expNn});
 	displayOn = false;
 	fileList = fileListFromExpNum(expN,displayOn);
 	dM = makeDataMatrix(fileList,2);
