@@ -16,10 +16,13 @@ function batchMasterPlots(expList)
 		fileList = fileListFromExpNum(expN,displayOn);
 		loadData(fileList(1),displayOn);
 		shortName = strrep(exp.experimentName,'-singleSideSeriesShort','');
+
 		plotTitle = [shortName,' - ',exp.genotype];
 		disp(['Scheduling for Fig Generation: ',plotTitle]);
 		fileName = shortName;
 		plotArgs = {plotTitle,fileList,epochList,laneList,fileName};
+
+		% feval(@laserMasterPlots,plotArgs{1},plotArgs{2},plotArgs{3},plotArgs{4},plotArgs{5});
 
 		createTask(job, @laserMasterPlots, 0, plotArgs);
 	end
