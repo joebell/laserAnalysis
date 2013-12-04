@@ -1,13 +1,21 @@
 % New batch scheduler, 
-function batchMasterPlots(expList)
+function batchMasterPlots(expList, varargin)
+
+	if nargin > 1
+		useLSF = varargin{1};
+	else
+		useLSF = true;
+	end
 
 	epochList = 2;
 	laneList = [1:8];
-
-	jm = findResource('scheduler','type','lsf');
-	set(jm,'ClusterMatlabRoot','/opt/matlab');
-	job = createJob(jm);
-	set(jm,'SubmitArguments','-R "rusage[matlab_dc_lic=1]" -W 12:00 -q short');
+	
+	if (useLSF)
+		jm = findResource('scheduler','type','lsf');
+		set(jm,'ClusterMatlabRoot','/opt/matlab');
+		job = createJob(jm);
+		set(jm,'SubmitArguments','-R "rusage[matlab_dc_lic=1]" -W 1:00 -q short');
+	end
 
 	for expNn = 1:length(expList)
 		expN = expList(expNn);
@@ -22,12 +30,16 @@ function batchMasterPlots(expList)
 		fileName = shortName;
 		plotArgs = {plotTitle,fileList,epochList,laneList,fileName};
 
-		% feval(@laserMasterPlots,plotArgs{1},plotArgs{2},plotArgs{3},plotArgs{4},plotArgs{5});
-
-		createTask(job, @laserMasterPlots, 0, plotArgs);
+		if useLSF
+			createTask(job, @laserMasterPlots, 0, plotArgs);
+		else
+			laserMasterPlots(plotTitle,fileList,epochList,laneList,fileName);
+		end
 	end
 
-	submit(job);
+	if useLSF
+		submit(job);
+	end
 		
 
 	
