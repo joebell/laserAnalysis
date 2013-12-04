@@ -10,23 +10,36 @@ function [PImean, PIstd] = predictPI(varargin)
 						.02,.01,.93];
 		speedMean = 6; % mm/sec
 		speedStd  = 3;
+		NtoSample = 100;
 	elseif (nargin == 2)
 		laserOffProb = varargin{1};
 		laserOnProb  = varargin{2};
 		speedMean = 6; % mm/sec
 		speedStd  = 3;
+		NtoSample = 100;
+	elseif (nargin == 3)
+		laserOffProb = varargin{1};
+		laserOnProb = varargin{2};
+		NtoSample = varargin{3};
+		speedMean = 6;
+		speedStd = 3;
 	elseif (nargin == 4)
 		laserOffProb = varargin{1};
 		laserOnProb  = varargin{2};
 		speedMean = varargin{3};
 		speedStd  = varargin{4};
+		NtoSample = 100;
+	elseif (nargin == 5)
+		laserOffProb = varargin{1};
+		laserOnProb = varargin{2};
+		speedMean = varargin{3};
+		speedStd = varargin{4};
+		NtoSample = varargin{5};
 	end
 
 	sampleInterval = .1;
 	duration = 30;
-
 	arenaBounds = [-25 25];
-	NtoSample = 100;
 
 	for flyN = 1:NtoSample
 		
