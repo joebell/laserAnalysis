@@ -187,8 +187,8 @@ for rowN = usePowers
     % figure(totalPosFig);
 	subplot(4,1,1);
     h = joeArea(timeVals,meanVals-stdVals,meanVals+stdVals); hold on;
-    set(h,'EdgeColor','none','FaceColor',pretty(8-rowN),'FaceAlpha',.3);
-    plot(timeVals,meanVals,'Color',pretty(8-rowN));
+    set(h,'EdgeColor','none','FaceColor',pretty(9-rowN),'FaceAlpha',.3);
+    plot(timeVals,meanVals,'Color',pretty(9-rowN));
                     xlim([-previewLength plotLength]*timeSampleInterval);
                     ylim([-25 25]);
 					line(xlim(),[0 0],'Color','k');
@@ -213,8 +213,8 @@ for rowN = usePowers
 %    figure(totalSpeedFig);
 	subplot(4,1,2);
     h = joeArea(timeVals,meanVals-stdVals,meanVals+stdVals); hold on;
-    set(h,'EdgeColor','none','FaceColor',pretty(8-rowN),'FaceAlpha',.3);
-    plot(timeVals,meanVals,'Color',pretty(8-rowN));
+    set(h,'EdgeColor','none','FaceColor',pretty(9-rowN),'FaceAlpha',.3);
+    plot(timeVals,meanVals,'Color',pretty(9-rowN));
                     xlim([-previewLength plotLength]*timeSampleInterval);
                     ylim([0 15]);
                     ylabel('X Speed (mm/sec)'); 
@@ -227,8 +227,8 @@ for rowN = usePowers
     timeVals = ((1:size(ySpeedMatrix,2))-previewLength).*timeSampleInterval;
 	subplot(4,1,3);
     h = joeArea(timeVals,meanVals-stdVals,meanVals+stdVals); hold on;
-    set(h,'EdgeColor','none','FaceColor',pretty(8-rowN),'FaceAlpha',.3);
-    plot(timeVals,meanVals,'Color',pretty(8-rowN));
+    set(h,'EdgeColor','none','FaceColor',pretty(9-rowN),'FaceAlpha',.3);
+    plot(timeVals,meanVals,'Color',pretty(9-rowN));
                     xlim([-previewLength plotLength]*timeSampleInterval);
                     ylim([0 4]);
                     ylabel('Y Speed (mm/sec)'); 
@@ -251,8 +251,8 @@ for rowN = usePowers
 %    figure(totalAngSpeedFig);
 	subplot(4,1,4);
     h = joeArea(timeVals,meanVals-stdVals,meanVals+stdVals); hold on;
-    set(h,'EdgeColor','none','FaceColor',pretty(8-rowN),'FaceAlpha',.3);
-    plot(timeVals,meanVals,'Color',pretty(8-rowN));
+    set(h,'EdgeColor','none','FaceColor',pretty(9-rowN),'FaceAlpha',.3);
+    plot(timeVals,meanVals,'Color',pretty(9-rowN));
                     xlim([-previewLength plotLength]*timeSampleInterval);
                     ylim([0 4]);
                     ylabel('Angular speed (rad/sec)');

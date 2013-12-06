@@ -28,12 +28,12 @@ function batchMasterPlots(expList, varargin)
 		plotTitle = [shortName,' - ',exp.genotype];
 		disp(['Scheduling for Fig Generation: ',plotTitle]);
 		fileName = shortName;
-		plotArgs = {plotTitle,fileList,epochList,laneList,fileName};
+		plotArgs = {fileName,plotTitle,fileList,epochList,laneList};
 
 		if useLSF
-			createTask(job, @laserMasterPlots, 0, plotArgs);
+			createTask(job, @masterPlotArray, 0, plotArgs);
 		else
-			laserMasterPlots(plotTitle,fileList,epochList,laneList,fileName);
+			masterPlotArray(fileName,plotTitle,fileList,epochList,laneList);
 		end
 	end
 

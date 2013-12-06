@@ -313,7 +313,7 @@ function AllStateProbs = plotStateTransitions(expList, useLanes, useEpochs)
     set(gca,'Visible','off');
     set(gcf,'Color','w');
     
-
+	freezeColors();
     
     
     

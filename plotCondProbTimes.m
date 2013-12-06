@@ -79,6 +79,10 @@ for nowState = 1:3
                 ylim([0 .1]);
             end
             hold on;
+			% Add blank labels to ensure even plot sizes.
+			title(' ');
+			xlabel(' ');
+			ylabel(' ');
         end
     end
 end
