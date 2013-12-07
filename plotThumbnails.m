@@ -71,11 +71,12 @@ function plotThumbnails(dM, expList, useLanes)
         text(-60,originY-4*60,['LP= ',num2str(aPower)],'HorizontalAlignment','right',...
             'FontSize',8);
     end
-    
+   
+    % Clean up axes	
     set(gca,'Visible','off','XTick',[],'YTick',[],'ZTick',[]);
 	axis tight;
     set(gcf,'Color','w');
-	set(gca,'LooseInset',[.08 .01 .01 .03]);
+	set(gca,'OuterPosition' ,[0 0 1 1],'LooseInset',[.08 .01 .01 .03]);
 
 
     
