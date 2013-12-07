@@ -51,7 +51,7 @@ function masterPlotArray(fileName,plotTitle,fileList,epochList,laneList)
 
 	% Plot the thumbnails
 	f = figure('Visible','off');
-	plotThumbnails(fileList,'',laneList,epochList);
+	plotThumbnails(dM, fileList,laneList);
 	AC.addAxis(gca);
 
 	% Plot velocity autocorrelation

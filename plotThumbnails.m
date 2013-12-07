@@ -1,9 +1,8 @@
-function plotThumbnails(expList, title, useLanes, useEpochs)
+function plotThumbnails(dM, expList, useLanes)
 
     
     timeSampleInterval = .1;
     
-    dM = makeDataMatrix(expList,useEpochs);
     numPoints = size(dM.PI,2);
     laserPowers = dM.conc(:,1)';
     powerList = unique(laserPowers);
@@ -63,10 +62,6 @@ function plotThumbnails(expList, title, useLanes, useEpochs)
 		        xTrack = bodyX.Data(:,flyN) + headX.Data(:,flyN);           
 		        plot(tTrack+originX,xTrack+yAdj+originY,'Color',pretty(flyN));
 		    end
-		    set(gca,'XTick',[],'YTick',[],'ZTick',[]);
-		    box off;
-		    axis tight;
-
 		end
     end
     
@@ -77,10 +72,10 @@ function plotThumbnails(expList, title, useLanes, useEpochs)
             'FontSize',8);
     end
     
-    text((nReps)*60*4/2,90,title,'HorizontalAlignment','center',...
-        'FontSize',10,'VerticalAlignment','bottom');
+    set(gca,'Visible','off','XTick',[],'YTick',[],'ZTick',[]);
+	axis tight;
     set(gcf,'Color','w');
-    set(gca,'Visible','off');
+	set(gca,'Position',[.09, .02, .90, .96]);
 
 
     
