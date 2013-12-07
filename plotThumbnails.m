@@ -75,7 +75,7 @@ function plotThumbnails(dM, expList, useLanes)
     set(gca,'Visible','off','XTick',[],'YTick',[],'ZTick',[]);
 	axis tight;
     set(gcf,'Color','w');
-	set(gca,'Position',[.09, .02, .90, .96]);
+	set(gca,'LooseInset',[.08 .01 .01 .03]);
 
 
     
