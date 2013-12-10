@@ -2,6 +2,7 @@ function plotThumbnails(dM, expList, useLanes)
 
     
     timeSampleInterval = .1;
+	fontSize = 6;
     
     numPoints = size(dM.PI,2);
     laserPowers = dM.conc(:,1)';
@@ -45,7 +46,7 @@ function plotThumbnails(dM, expList, useLanes)
         
 		    originX = (repN-1)*60*4;
 		    originY = -(powerN-1)*9*60;
-		    text(originX,originY+20,num2str(expN),'FontSize',6,...
+		    text(originX,originY+20,num2str(expN),'FontSize',fontSize,...
 		        'HorizontalAlignment','left','VerticalAlignment','bottom');
 		    hold on;
 			if isfield(exp,'trainingEpochs')
@@ -69,7 +70,7 @@ function plotThumbnails(dM, expList, useLanes)
         aPower = powerList(powerN);
         originY = -(powerN-1)*9*60;
         text(-60,originY-4*60,['LP= ',num2str(aPower)],'HorizontalAlignment','right',...
-            'FontSize',8);
+            'FontSize',fontSize+2);
     end
    
     % Clean up axes	

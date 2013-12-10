@@ -77,8 +77,8 @@ function masterPlotArray(fileName,plotTitle,fileList,epochList,laneList)
 		end
 	end
 	plotCondProbTimes(fileList,axesArray,epochList,laneList);
-	for row = 1:3
-		for col = 1:3
+	for col = 1:3
+		for row = 1:3
 			AC.addAxis(axesArray(col,row));
 		end
 	end
@@ -105,7 +105,18 @@ function masterPlotArray(fileName,plotTitle,fileList,epochList,laneList)
 	statePIPredictions(ASC,dM,epochList,laneList);
 	AC.addAxis(gca);
 
+	% Plot binBySpeed Fig.
+	f = figure('Visible','off');
+	binBySpeed(dM,laneList,'PI');
+	AC.addAxis(subplot(3,1,1:2));
+	AC.addAxis(subplot(3,1,3));
+
+	f = figure('Visible','off');
+	binBySpeed(dM,laneList,'decPI');
+	AC.addAxis(subplot(3,1,1:2));
+	AC.addAxis(subplot(3,1,3));
 
 	% Save it!
 	hgsave(AC.axesList,[baseDir,fileName,'.fig']);
 	close all;
+

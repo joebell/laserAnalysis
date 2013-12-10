@@ -87,6 +87,7 @@ for powerN = 1:nPowers;
 	set(h,'EdgeColor','none','FaceColor',pretty(nPowers - powerN + 1),...
 		'FaceAlpha',.2); hold on;
 	plot(speedBinCenters, means,'Color',pretty(nPowers - powerN + 1)); 
+
 	if (powerN == nPowers)
 		fillL = (speedBinCenters(1) - speedBinHalfWidth);
 		fillR = (speedBinCenters(1) + speedBinHalfWidth);
@@ -94,7 +95,8 @@ for powerN = 1:nPowers;
 		fill([fillL fillL fillR fillR],[lims(1),lims(2), lims(2), lims(1)],'k','FaceColor','k','EdgeColor',...
 			'none','FaceAlpha',.2);
 		xlim([0 max(meanSpeeds)]);
-		xlabel('Mean walking speed (mm/sec)');
+		%set(gca,'XTickLabel',[],'ActivePositionProperty','OuterPosition',...
+		%		'LooseInset',[0 0 0 0]);
 		ylabel(plotQuantity);
 	end
 	
@@ -109,6 +111,8 @@ for powerN = 1:nPowers;
 		xlim([0 max(meanSpeeds)]);
 		xlabel('Mean walking speed (mm/sec)');
 		ylabel('N');
+		ylim(lims);
+		%set(gca,'ActivePositionProperty','OuterPosition','LooseInset',[0 0 0 0]);
 	end
 	
 end

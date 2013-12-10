@@ -78,6 +78,7 @@ for nowState = 1:3
             else
                 ylim([0 .1]);
             end
+			xlim([-15 0]);
             hold on;
 			% Add blank labels to ensure even plot sizes.
 			title(' ');

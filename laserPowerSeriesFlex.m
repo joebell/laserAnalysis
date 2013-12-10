@@ -31,8 +31,7 @@ function laserPowerSeriesFlex(dM, useLanes, plotQuantity, travelThreshold, lineC
     plotLRBreakouts = LR;
     
     bigLineWidths = .5;
-    labelFontSize = 6;
-	chunkWidth = .75;
+	chunkWidth = .7;
 
 
     numPoints = size(pQ,2);
@@ -40,6 +39,7 @@ function laserPowerSeriesFlex(dM, useLanes, plotQuantity, travelThreshold, lineC
     powerList = unique(laserPowers);
     nPowers = size(powerList,2);
 	xScale = max([mean(diff(powerList)),1]);  % Protect against 1 power
+	evenSpacing = false;
     fileNs = dM.fileN;
     fileList = unique(fileNs);
     nFiles = size(fileList,2);
@@ -62,7 +62,7 @@ nBlocks = max(blockNs);
 
 
     if refLineOn
-        line([powerList(1)-chunkWidth/2,powerList(end)+chunkWidth/2],[0,0],'LineStyle',':','Color',[1 1 1]*.7); hold on;
+        line([powerList(1)-xScale*chunkWidth,powerList(end)+xScale*chunkWidth],[0,0],'LineStyle','--','Color',[1 1 1]*.7); hold on;
     end
 
 means = [];
@@ -89,6 +89,7 @@ for powerN = 1:nPowers;
     
     % Plot a mini time series at each power point
     if plotTimeTrends
+		evenSpacing = true;
 		blockMeans = []; blockStErrs = [];
 		biggestBlock = 1;
         for blockN = 1:nBlocks
@@ -114,6 +115,7 @@ for powerN = 1:nPowers;
     
     % Plot each fly's avg. at each power
     if plotLaneAvgs
+		evenSpacing = true;
         for laneN = 1:8
             ix = find((laserPowers == power)&...
                 (dM.dTraveled > travelThreshold)&...
@@ -124,7 +126,7 @@ for powerN = 1:nPowers;
             laneErr = nanstd(pQs)/sqrt(numFound);
             % x = power+(laneN/8 -.5)*chunkWidth*xScale;
 			x = (powerN - 1 +(laneN/8 -.5)*chunkWidth)*xScale;
-            tickWidth = .2;
+            tickWidth = .4;
             line([x x],[-laneErr, laneErr]+laneMean,'Color',pretty(laneN),'LineWidth',bigLineWidths); hold on;
             line(x + tickWidth/2.*[-1 1],laneMean+[0,0],'Color',pretty(laneN),'LineWidth',bigLineWidths);
             % errorbar(power+(laneN/8 -.5)*1,laneMean,laneErr,'Color',pretty(laneN));
@@ -179,13 +181,19 @@ if plotGrandMean
     end
 end
 
-axis tight;
+
+set(gca,'XTick',powerList);
+if evenSpacing
+	labels = get(gca,'XTickLabel');
+	set(gca,'XTick',([1:nPowers] - 1)*xScale,'XTickLabel',labels);
+end
+
+axis tight; box on;
 ylims = ylim();
 ylim([ylims(1)-.1,ylims(2)+.1]);
-ylabel(plotQuantity,'FontSize',labelFontSize);
+ylabel(plotQuantity);
 
-xlim([powerList(1)-chunkWidth*xScale/2,powerList(end)+chunkWidth*xScale/2]);
-xlabel('Laser Command (AU / 255)','FontSize',labelFontSize);
-set(gca,'ZTick',[],'FontSize',labelFontSize);
-set(gca,'XTick',powerList);
+xlim([powerList(1)-chunkWidth*xScale,powerList(end)+chunkWidth*xScale]);
+xlabel('Laser Command (AU / 255)');
+set(gca,'ZTick',[]);
     

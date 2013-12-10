@@ -194,9 +194,9 @@ for rowN = usePowers
 					line(xlim(),[0 0],'Color','k');
 					line([0,0],ylim(),'Color','k');
                     ylabel('X (mm)');
-					xlabel('Time (sec)');
-					title([plotTitle,' - Aligned by first laser onset per trial']);
-                    %title(['LP = ',num2str(exp.laserPowers(rowN).*exp.laserFilter)]);
+					xlabel('Time (s)');
+%	set(gca,'ActivePositionProperty','OuterPosition','LooseInset',[0 0 0 0]);
+
 
 %    figure(speedFig);
 %    subplot(size(exp.laserPowers,2)*1,1,rowN*1-0);
@@ -217,10 +217,12 @@ for rowN = usePowers
     plot(timeVals,meanVals,'Color',pretty(9-rowN));
                     xlim([-previewLength plotLength]*timeSampleInterval);
                     ylim([0 15]);
-                    ylabel('X Speed (mm/sec)'); 
+                    ylabel('dX/dt (mm/s)'); 
 					line([0,0],ylim(),'Color','k');
+					xlabel('Time (s)');
 					% title('Aligned by first laser onset per trial');
                     %title(['LP = ',num2str(exp.laserPowers(rowN).*exp.laserFilter)]);
+%	set(gca,'ActivePositionProperty','OuterPosition','LooseInset',[0 0 0 0]);
  
     meanVals = nanmean(ySpeedMatrix,1);
     stdVals = nanstd(ySpeedMatrix)/sqrt(size(ySpeedMatrix,1));
@@ -231,10 +233,10 @@ for rowN = usePowers
     plot(timeVals,meanVals,'Color',pretty(9-rowN));
                     xlim([-previewLength plotLength]*timeSampleInterval);
                     ylim([0 4]);
-                    ylabel('Y Speed (mm/sec)'); 
+                    ylabel('dY/dt (mm/s)'); 
 					line([0,0],ylim(),'Color','k');
-
-
+					xlabel('Time (s)');
+%	set(gca,'ActivePositionProperty','OuterPosition','LooseInset',[0 0 0 0]);
    
 %    figure(angSpeedFig);
 %    subplot(size(exp.laserPowers,2)*1,1,rowN*1-0);
@@ -255,12 +257,11 @@ for rowN = usePowers
     plot(timeVals,meanVals,'Color',pretty(9-rowN));
                     xlim([-previewLength plotLength]*timeSampleInterval);
                     ylim([0 4]);
-                    ylabel('Angular speed (rad/sec)');
+                    ylabel('(rad/s)');
 					line([0,0],ylim(),'Color','k');
-					% title('Aligned by first laser onset per trial');
-					xlabel('Time (sec)');
-                    %title(['LP = ',num2str(exp.laserPowers(rowN).*exp.laserFilter)]);
-    
+					xlabel('Time (s)');
+%	set(gca,'ActivePositionProperty','OuterPosition','LooseInset',[0 0 0 0]);
+
 end
 
 

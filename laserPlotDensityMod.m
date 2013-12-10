@@ -1,7 +1,7 @@
 function laserPlotDensityMod(expList,lanesToUse)
 
 timeSampleInterval = .1;
-fontSize = 6;
+fontSize = 10;
 minTravelDistance = 5; % mm
 % lanesToUse = [1:8];
 
@@ -14,7 +14,7 @@ hInterval = xSpan + hSpacing;
 tBins = 0:10:3*60;
 NtBins = size(tBins,2);
 tSpan = tBins(end) - tBins(1);
-vSpacing = 80;
+vSpacing = 15;
 vInterval = tSpan + vSpacing;
 
 statesList = {[1,2,3],[1,2,3]};
@@ -137,16 +137,18 @@ end
 if (Nplots > 1)
 % Plot Y text
     for plotN = 1:Nplots
-        text(xBins(1) - 10,-(plotN-1)*vInterval - 3*60, stateDescriptions{plotN},...
+        text(xBins(1) - 10,-(plotN-1)*vInterval - 2*60, stateDescriptions{plotN},...
             'HorizontalAlignment','right','VerticalAlignment','bottom','FontSize',fontSize);
     end
 end
 
+
+xlim([-80 500]);
+ylim([-460 40]);
+
 axis tight;
 xlims = xlim();
-xlim([xlims(1)-15,xlims(2)]);
 ylims = ylim();
-ylim([ylims(1)-80 ylims(2)]);
 
     ticLength = 2;
     axisMiddle = xBins(1) - 10;
@@ -159,25 +161,26 @@ ylim([ylims(1)-80 ylims(2)]);
     
 	
     yOffset = -(Nplots - 1) * vInterval;
-    axisBottom = yOffset -3*60 - 35;
-    ticLength = 15;
+    axisBottom = yOffset -3*60 +15;
+    ticLength = 5;
     line([xBins(1)-5 xBins(end)+5],axisBottom + [0 0],'Color','k');
     line([0 0]+xBins(1),axisBottom + ticLength.*[-1 1],'Color','k');
     line([0 0]+xBins(end),axisBottom + ticLength.*[-1 1],'Color','k');
     line([0 0],axisBottom + ticLength.*[-1 1],'Color','k');
-    text(xBins(1),axisBottom-30,num2str(xBins(1)),'HorizontalAlignment','center',...
+    text(xBins(1),axisBottom-20,num2str(xBins(1)),'HorizontalAlignment','center',...
         'VerticalAlignment','top','FontSize',fontSize);
-    text(xBins(end),axisBottom-30,num2str(xBins(end)),'HorizontalAlignment','center',...
+    text(xBins(end),axisBottom-20,num2str(xBins(end)),'HorizontalAlignment','center',...
         'VerticalAlignment','top','FontSize',fontSize);
-    text(0,axisBottom-30,'0 mm','HorizontalAlignment','center',...
+    text(0,axisBottom-20,'0 mm','HorizontalAlignment','center',...
         'VerticalAlignment','top','FontSize',fontSize);
 
 
 
 
 box off;
-%axis tight;
-set(gca,'Visible','off');
+xlim([-80 490]);
+ylim([-400 40]);
+set(gca,'Visible','off','ActivePositionProperty','OuterPosition','LooseInset',[0 0 0 0]);
 set(gcf,'Color','w');
 freezeColors();
 

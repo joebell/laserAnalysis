@@ -1,13 +1,13 @@
 function plotStateLifetimes(expList, useEpochs, useLanes)
 
-    fontSize = 8;
+    fontSize = 10;
     plotColors = ['b','r','g'];
     spaceFactor = 1.2;
     timeSampleInterval = .1;
     
 %     useLanes = 1:8;
 %     useEpochs = [2,4];
-    timeBins = 1:1:61;
+    timeBins = 2:2:62;
     
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
@@ -24,6 +24,15 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
         loadData(expN);
 
         powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
+		if exp.laserParams(1) > exp.laserParams(2)
+			leftEpoch = 1;
+		elseif exp.laserParams(2) > exp.laserParams(1)
+			leftEpoch = 0;
+		else
+			leftEpoch = randi(2) - 1;
+		end
+
+			
 
         for laneN = useLanes
             for epochN = useEpochs
@@ -34,6 +43,15 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
                 
                 scaledTrack = bodyX.Data(:,laneN) + headX.Data(:,laneN);
                 stateSeq   = identifyStates(scaledTrack);
+
+				% Flip LR to put states in toward/away basis
+				if ~leftEpoch
+					ixL = find(stateSeq == 1);
+					ixR = find(stateSeq == 3);
+					stateSeq(ixL) = 3;
+					stateSeq(ixR) = 1;	
+				end
+
                 dSSeq = 1 - abs([1,diff(stateSeq)']);
                 stateDuration = zeros(size(dSSeq,2),1);
                 for n=1:size(dSSeq,2)
@@ -82,12 +100,12 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
             hold on;
             plot(timeBins(1:(end-1))./10, ...
                 P(powerN,:) - (fromState - 1)*Yspacing*spaceFactor,...
-                'Color',[(powerN/Npowers) 0 0]);
+                'Color', pretty(Npowers + 1 - powerN));
         end
     end
     
     fromState = 1;
-    text(0, -(fromState - 1)*Yspacing*spaceFactor,'Walking Left  ',...
+    text(0, -(fromState - 1)*Yspacing*spaceFactor,'Walking Toward ',...
         'HorizontalAlignment', 'left', 'VerticalAlignment','baseline',...
         'FontSize',fontSize, 'Rotation', 90);
     fromState = 2;
@@ -95,7 +113,7 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
         'HorizontalAlignment', 'left', 'VerticalAlignment','baseline',...
         'FontSize',fontSize, 'Rotation', 90);
     fromState = 3;
-    text(0, -(fromState - 1)*Yspacing*spaceFactor,'Walking Right  ',...
+    text(0, -(fromState - 1)*Yspacing*spaceFactor,'Walking Away ',...
         'HorizontalAlignment', 'left', 'VerticalAlignment','baseline',...
         'FontSize',fontSize, 'Rotation', 90);
     

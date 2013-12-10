@@ -1,6 +1,5 @@
 function laserPlotDensityStates(expList,useEpochs, lanesToUse, axesArray)
 
-fontSize = 6;
 timeSampleInterval = .1;
 minTravelDistance = 5; % mm
 % lanesToUse = [1:8];
@@ -71,17 +70,17 @@ maxDensity = max(Ntot(:));
 for stateN = statesList
     axes(axesArray(stateN));
     for powerN = 1:Npowers
-        plotColor = [powerN/Npowers 0 0];
+        plotColor = pretty(Npowers + 1 - powerN);
         plot(xBins, -squeeze(Ntot(stateN,powerN,1,:))./maxDensity,'Color',plotColor);
         hold on;
         plot(xBins, squeeze(Ntot(stateN,powerN,2,:))./maxDensity,'Color',plotColor);
     end
-    title(stateDescriptions{stateN},'FontSize',fontSize);
+    title(stateDescriptions{stateN});
     xlim([-25 25]);
-    xlabel('X (mm)','FontSize',fontSize);
+    xlabel('X (mm)');
 end
 axes(axesArray(1));
-ylabel('P','FontSize',fontSize);
+ylabel('P');
 
 ylims1 = ylim();
 axes(axesArray(3));
@@ -107,9 +106,9 @@ maxLims13 = max(abs(allLims));
     set(gca,'YTick',[-maxLims,0,maxLims]);
     set(gca,'YTickLabel',[maxLims,0,maxLims]);
     % set(gca,'YTickLabel',abs(yTicks));
-    set(gca,'FontSize',fontSize);    
     set(gca,'ZTick',[]);
-    
+	%set(gca,'ActivePositionProperty','OuterPosition','LooseInset',[0 0 0 0]);
+
     axes(axesArray(2));
     maxLims = max(abs(ylim()));
     ylim([-maxLims maxLims]);
@@ -126,8 +125,8 @@ maxLims13 = max(abs(allLims));
     set(gca,'YTick',[-maxLims,0,maxLims]);
     set(gca,'YTickLabel',[maxLims,0,maxLims]);
     % set(gca,'YTickLabel',abs(yTicks));
-    set(gca,'FontSize',fontSize);    
     set(gca,'ZTick',[]);
+	%set(gca,'ActivePositionProperty','OuterPosition','LooseInset',[0 0 0 0]);
     
     axes(axesArray(3));
     maxLims = maxLims13*1.1;
@@ -145,8 +144,8 @@ maxLims13 = max(abs(allLims));
     set(gca,'YTick',[-maxLims,0,maxLims]);
     set(gca,'YTickLabel',[maxLims,0,maxLims]);
     % set(gca,'YTickLabel',abs(yTicks));
-    set(gca,'FontSize',fontSize);    
     set(gca,'ZTick',[]);
+	%set(gca,'ActivePositionProperty','OuterPosition','LooseInset',[0 0 0 0]);
     
 
 

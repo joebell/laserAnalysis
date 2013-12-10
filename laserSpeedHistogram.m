@@ -1,6 +1,6 @@
 function laserSpeedHistogram(expList, useEpochs, useLanes)
 
-	histBins = 0:.5:25;
+	histBins = 0:1:26;
 	timeSampleInterval = .1;
 
     for expNn = 1:size(expList,2)
@@ -51,11 +51,10 @@ function laserSpeedHistogram(expList, useEpochs, useLanes)
         N = histCounts(powerN,:);
         Nrem = histCountsRem(powerN,:);
         totalCounts = sum(N);
-        plotColor = [powerN/Npowers,0,0];
-        plot(histBins, Nrem./totalCounts ,'Color',plotColor);
+        plotColor = pretty(Npowers + 1 - powerN);
+		plot(histBins(1:(end-1)), Nrem(1:end-1)./totalCounts ,'Color',plotColor);
         hold on;
     end
-    xlabel('Speed (mm/sec)','FontSize',6);
-    ylabel('P','FontSize',6);
-    set(gca,'FontSize',6);
+    xlabel('Instantaneous Speed (mm/s)');
+    ylabel('P');
     box off;

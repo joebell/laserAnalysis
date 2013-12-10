@@ -1,6 +1,6 @@
 function AllStateProbs = plotStateTransitions(expList, useLanes, useEpochs)
 
-    fontSize = 6;
+    fontSize = 10;
     useColormap = fireAndIce();
 	timeSampleInterval = .1;
     
@@ -312,7 +312,6 @@ function AllStateProbs = plotStateTransitions(expList, useLanes, useEpochs)
     axis tight;
     set(gca,'Visible','off');
     set(gcf,'Color','w');
-    
 	freezeColors();
     
     
