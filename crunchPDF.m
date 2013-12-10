@@ -20,36 +20,9 @@ function crunchPDF()
 
             disp(['Crunching PDF: ',figList(figN).name,'.pdf']);
 
-            % Make a temp PDF for each panel
-            catCMD = 'pdftk ';
-            handles = hgload([sourceDir,figList(figN).name,'.fig']);
-            for panelN = 1:length(handles)
-                figure(handles(panelN));
-                set(handles(panelN),'Visible','on');
-                if (panelN == 2)
-                    savePDF('t2.pdf',true);
-				elseif (panelN == 1)
-					fixPlot1(handles(panelN));
-					saveTallPDF(['t',num2str(panelN),'.pdf'],true);
-                else
-                    saveTallPDF(['t',num2str(panelN),'.pdf'],true);
-                end
-                catCMD = [catCMD,'t',num2str(panelN),'.pdf '];
-				close(handles(panelN));
-            end
-            close all;
-
-
-            
-            % Concatenate them with pdftk
-            catCMD = [catCMD,' cat output ',destDir,figList(figN).name,'.pdf'];
-            unix(catCMD);
-
-            % Remove the temp files
-            for panelN = 1:length(handles);
-                rmCMD = ['rm t',num2str(panelN),'.pdf'];
-                unix(rmCMD);
-            end
+			forms = RTFWmakeFigures([sourceDir,figList(figN).name,'.fig']);
+			forms{1}.allPDF([destDir,figList(figN).name,'.pdf']);
+			forms{1}.close();
 
 		end % if we're making PDFs
 	end % for all the figures in the directory
