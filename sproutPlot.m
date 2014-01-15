@@ -1,5 +1,7 @@
 function sproutPlot(plotTitle, fileList, useEpochs, useLanes, usePowers) 
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
 timeSampleInterval = .05;
 plotLength = 30/timeSampleInterval;    % Samples
 previewLength = 2/timeSampleInterval; % Samples
@@ -32,26 +34,9 @@ for order = orderList
     
     fileNum = fileList(order);
     loadData(fileNum);
-    
-    rowN = dsearchn(exp.laserPowers',max(exp.laserParams));
-    
-    if exp.laserParams(1) > exp.laserParams(2)
-        % Left epoch
-        leftEpoch = true;
-        rightEpoch = false;
-        nullEpoch = false;
-    elseif exp.laserParams(1) < exp.laserParams(2)
-        % Right epoch
-        leftEpoch = false;
-        rightEpoch = true;
-        nullEpoch = false;
-    elseif exp.laserParams(1) == exp.laserParams(2)
-        % No laser epoch, do either
-        leftEpoch = false;
-        rightEpoch = false;
-        nullEpoch = true;
-    end
-    
+    [lEpoch, testPower] = leftOrRight(exp); 
+    rowN = dsearchn(exp.laserPowers',testPower);
+   
     for epochN = useEpochs
         
         bodyXs = resample(exp.epoch(epochN).track.bodyX,0:timeSampleInterval:exp.epoch(epochN).track.bodyX.Time(end));
@@ -80,20 +65,12 @@ for order = orderList
 %             ix = find(abs(diff(angle)) > pi);
 %             angle(ix) = NaN;
             
-            if (leftEpoch && (bodyX(1)+headX(1) > 0))
+            if (lEpoch==1 && (bodyX(1)+headX(1) > 0))
                 ix = find(bodyX+headX < 0);
                 bodyX = -bodyX;
                 headX = -headX;
-            elseif (rightEpoch && (bodyX(1)+headX(1) < 0))
+            elseif (lEpoch==-1 && (bodyX(1)+headX(1) < 0))
                 ix = find(bodyX+headX > 0);
-            elseif (nullEpoch && (bodyX(1)+headX(1) > 0))
-                ix = find(bodyX+headX < 0);
-                bodyX = -bodyX;
-                headX = -headX;
-            elseif (nullEpoch && (bodyX(1)+headX(1) < 0))
-                ix = find(bodyX+headX > 0);
-            else
-                ix = [];
             end
             
 

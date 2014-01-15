@@ -1,5 +1,7 @@
 function laserPlotDensityMod(expList,lanesToUse)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
 timeSampleInterval = .1;
 fontSize = 10;
 minTravelDistance = 5; % mm

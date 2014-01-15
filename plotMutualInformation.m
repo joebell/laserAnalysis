@@ -1,5 +1,7 @@
 function I = plotMutualInformation(expList, useEpochs, useLanes)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
 timeSampleInterval = .1;
 % timeLags = [0:1:60,65:5:150];
 timeLags = [0:1:10,20:10:150];

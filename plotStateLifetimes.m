@@ -1,5 +1,7 @@
 function plotStateLifetimes(expList, useEpochs, useLanes)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
     fontSize = 10;
     plotColors = ['b','r','g'];
     spaceFactor = 1.2;

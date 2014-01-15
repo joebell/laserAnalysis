@@ -1,5 +1,7 @@
 function plotVelocityAutocorrelation(expList,useEpochs,useLanes)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
 timeSampleInterval = .1;
     
     for expNn = 1:size(expList,2)

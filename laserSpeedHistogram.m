@@ -1,5 +1,7 @@
 function laserSpeedHistogram(expList, useEpochs, useLanes)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
 	histBins = 0:1:26;
 	timeSampleInterval = .1;
 

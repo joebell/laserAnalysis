@@ -1,5 +1,7 @@
 function AllStateProbs = plotStateTransitions(expList, useLanes, useEpochs)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
     fontSize = 10;
     useColormap = fireAndIce();
 	timeSampleInterval = .1;

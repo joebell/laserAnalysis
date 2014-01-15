@@ -1,5 +1,7 @@
 function plotCondProbTimes(expList,axesArray, useEpochs, useLanes)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
 minSamples = 1;        % Don't display averages with fewer    
 timeLags = [0:1:60,65:5:150];
 timeSampleInterval = .1;

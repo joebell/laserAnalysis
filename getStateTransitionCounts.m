@@ -1,5 +1,6 @@
 function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
 
+	exp = 0; % Ensure compiler knows exp is a variable loaded from the data file.
 
 	timeSampleInterval = .1;
     
@@ -23,13 +24,13 @@ function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
     % Zero out the state counts   
     % [PowerN, [LaserL|LaserR], [From],[X],[To],[TimeChunk]    
     ASC = zeros(Npowers,2,3,NxBins,3,maxChunks); % Left
-    
+   
     for expNn = 1:size(expList,2)
 
         expN = expList(expNn);
         loadData(expN);
-        
 		[lEpoch,testPower] = leftOrRight(exp);
+		lEpochIX = (3-lEpoch)/2;
 		powerN = dsearchn(powerList',testPower);
 
 		nPerPower(powerN) = nPerPower(powerN) + 1;
@@ -57,8 +58,8 @@ function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
 				            if (size(xBinIndices,1) > 0)
 				                for xBinIndexN=1:size(xBinIndices,1)
 				                    xBinIndex = xBinIndices(xBinIndexN);
-				                    ASC(powerN,lEpoch,fromState,xBinIndex,toState,chunkN) = ...
- 										ASC(powerN,lEpoch,fromState,xBinIndex,toState,chunkN) + 1;
+				                    ASC(powerN,lEpochIX,fromState,xBinIndex,toState,chunkN) = ...
+ 										ASC(powerN,lEpochIX,fromState,xBinIndex,toState,chunkN) + 1;
 				                end
 				            end
 				        end

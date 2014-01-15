@@ -1,5 +1,7 @@
 function laserPlotDensityStates(expList,useEpochs, lanesToUse, axesArray)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
 timeSampleInterval = .1;
 minTravelDistance = 5; % mm
 % lanesToUse = [1:8];
