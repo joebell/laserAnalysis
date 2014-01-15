@@ -29,12 +29,20 @@ function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
         loadData(expN);
 
         powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
-		if (exp.laserParams(1) > exp.laserParams(2))
-			lEpoch = 1;
-		elseif (exp.laserParams(1) < exp.laserParams(2))
-			lEpoch = 2;
-		elseif (exp.laserParams(1) == exp.laserParams(2))
-			lEpoch = randi(2);
+		if length(exp.laserParams) <= 2
+			if (exp.laserParams(1) > exp.laserParams(2))
+				lEpoch = 1;
+			elseif (exp.laserParams(1) < exp.laserParams(2))
+				lEpoch = 2;
+			elseif (exp.laserParams(1) == exp.laserParams(2))
+				lEpoch = randi(2);
+			end
+		else
+			if (exp.laserParams(3) == 1)
+				lEpoch = 1;
+			elseif (exp.laserParams(4) == 1)
+				lEpoch = 2;
+			end
 		end
 
 		nPerPower(powerN) = nPerPower(powerN) + 1;

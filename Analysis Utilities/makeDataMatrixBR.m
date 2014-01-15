@@ -1,4 +1,4 @@
-function dataMatrix = makeDataMatrix(fileList, useEpochs) 
+function dataMatrix = makeDataMatrixBR(fileList, useEpochs) 
 
 resamplePeriod = .1; % Resample data on this interval (sec)
 
@@ -43,15 +43,23 @@ for order = orderList
 		    
 				scaledSeg = scaledSegs(:,fly);
 
-				% 
+				% Assign laser side 
+				lPower = exp.laserParams(1).*exp.laserFilter;
+				rPower = exp.laserParams(2).*exp.laserFilter;
 				signSeg = sign(scaledSeg);
 				rightSides = nnz(find(signSeg == 1));
 				leftSides = nnz(find(signSeg ~= 1));
-				[lEpoch, testConc] = leftOrRight(exp);
-				if (lEpoch == 1)
+				if exp.laserParams(3) == 1
+					leftBlue = 1;
+				else
+					leftBlue = 2;
+				end
+				if (leftBlue == 1)  
 					PI = (leftSides - rightSides)/(leftSides + rightSides);
-				elseif (lEpoch == -1)
+					lEpoch = 1;
+				else
 					PI =  (rightSides - leftSides)/(leftSides + rightSides);
+					lEpoch = -1;
 				end
 
 		        trackDiffs = diff(scaledSeg);
@@ -59,7 +67,13 @@ for order = orderList
 	                    
 		        dataMatrix.fileN(end+1) = fileNum;
 		        dataMatrix.odor{end+1} = exp.odor;
-		        dataMatrix.conc(end+1,1) = testConc;
+
+				if (leftBlue == 1)
+		        	dataMatrix.conc(end+1,1) = rPower;
+				else
+		        	dataMatrix.conc(end+1,1) = lPower;
+				end
+
 		        dataMatrix.epochN(end+1) = epochN;
 		        dataMatrix.leftEpoch(end+1) = lEpoch;
 		        dataMatrix.lane(end+1) = fly;
