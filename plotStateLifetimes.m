@@ -12,7 +12,8 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
+		[lEpoch, testPower] = leftOrRight(exp);
+        laserPowers(expNn) = testPower;
     end
     powerList = unique(laserPowers);
     Npowers = size(powerList,2);
@@ -22,16 +23,8 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
         % disp(expNn);
         expN = expList(expNn);
         loadData(expN);
-
-        powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
-		if exp.laserParams(1) > exp.laserParams(2)
-			leftEpoch = 1;
-		elseif exp.laserParams(2) > exp.laserParams(1)
-			leftEpoch = 0;
-		else
-			leftEpoch = randi(2) - 1;
-		end
-
+		[lEpoch, testPower] = leftOrRight(exp);
+        powerN = dsearchn(powerList',testPower);
 			
 
         for laneN = useLanes
@@ -45,7 +38,7 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
                 stateSeq   = identifyStates(scaledTrack);
 
 				% Flip LR to put states in toward/away basis
-				if ~leftEpoch
+				if (leftEpoch == -1)
 					ixL = find(stateSeq == 1);
 					ixR = find(stateSeq == 3);
 					stateSeq(ixL) = 3;

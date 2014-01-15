@@ -23,7 +23,8 @@ stateDescriptions = {'Walking L','Stopped','Walking R'};
 for expNn = 1:size(expList,2)
     expN = expList(expNn);
     loadData(expN);
-    laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
+	[lEpoch, testPower] = leftOrRight(exp);
+    laserPowers(expNn) = testPower;
 end
 powerList = unique(laserPowers);
 Npowers = size(powerList,2);
@@ -33,19 +34,18 @@ Ntot = zeros(Nplots, Npowers, 2, NxBins);
 for expNn = 1:size(expList,2)
     expN = expList(expNn);
     loadData(expN);
-    powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
+	[lEpoch, testPower] = leftOrRight(exp);
+    powerN = dsearchn(powerList',testPower);
 	% Resample data
 	bodyX = resample(exp.wholeTrack.bodyX,0:timeSampleInterval:exp.wholeTrack.bodyX.Time(end));
 	headX = resample(exp.wholeTrack.headX,0:timeSampleInterval:exp.wholeTrack.headX.Time(end));
 	tTrack = bodyX.Time;
     for fly=lanesToUse
         for epochNn = 1:1
-			if (exp.laserParams(1) > exp.laserParams(2))
+			if (lEpoch == 1)
 				topN = 1;
-			elseif (exp.laserParams(1) < exp.laserParams(2))
+			elseif (lEpoch == -1)
 				topN = 2;
-			elseif (exp.laserParams(1) == exp.laserParams(2))
-				topN = randi(2);
 			end
             epochN = useEpochs(epochNn);
             xTrack = bodyX.Data(:,fly) + headX.Data(:,fly);

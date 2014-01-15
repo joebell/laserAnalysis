@@ -10,7 +10,8 @@ function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
+		[lEpoch, testPower] = leftOrRight(exp);
+        laserPowers(expNn) = testPower;
     end
     powerList = unique(laserPowers);
     Npowers = size(powerList,2);
@@ -27,23 +28,9 @@ function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
 
         expN = expList(expNn);
         loadData(expN);
-
-        powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
-		if length(exp.laserParams) <= 2
-			if (exp.laserParams(1) > exp.laserParams(2))
-				lEpoch = 1;
-			elseif (exp.laserParams(1) < exp.laserParams(2))
-				lEpoch = 2;
-			elseif (exp.laserParams(1) == exp.laserParams(2))
-				lEpoch = randi(2);
-			end
-		else
-			if (exp.laserParams(3) == 1)
-				lEpoch = 1;
-			elseif (exp.laserParams(4) == 1)
-				lEpoch = 2;
-			end
-		end
+        
+		[lEpoch,testPower] = leftOrRight(exp);
+		powerN = dsearchn(powerList',testPower);
 
 		nPerPower(powerN) = nPerPower(powerN) + 1;
 		chunkN = ceil(nPerPower(powerN)/nPerChunk);

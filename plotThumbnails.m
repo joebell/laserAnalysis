@@ -20,26 +20,16 @@ function plotThumbnails(dM, expList, useLanes)
     for expN = expList
         
         loadData(expN);
- 
-        powerN = dsearchn(powerList', max(exp.laserParams.*exp.laserFilter));
+		[lEpoch, testPower] = leftOrRight(exp); 
+        powerN = dsearchn(powerList', testPower);
         %repN = 2*ceil((expN - expList(1) + 1)/(2*nPowers))-1;
         
-        	if (exp.laserParams(1) > exp.laserParams(2))
-                lEpoch = 1;
+        	if (lEpoch == 1)
 				repN = repNumbers(1,powerN);
 				repNumbers(1,powerN) = repNumbers(1,powerN) + 2;
-            elseif (exp.laserParams(2) > exp.laserParams(1))
-                lEpoch = -1;
+            elseif (lEpoch == -1)
                 repN = repNumbers(2,powerN);
 				repNumbers(2,powerN) = repNumbers(2,powerN) + 2;
-            elseif (exp.laserParams(1) == exp.laserParams(2))
-                repN = zeroRepIdx;
-				zeroRepIdx = zeroRepIdx + 1;
-				if (mod(repN,2) == 1)
-					lEpoch = 1;
-				else
-					lEpoch = -1;
-				end
             end
 
 		if sum(powerN == usePowers) > 0

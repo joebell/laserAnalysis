@@ -28,3 +28,5 @@ function [LR, testPower] = leftOrRight(exp)
 		end
 	end
 
+	testPower = testPower*exp.laserFilter;
+

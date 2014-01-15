@@ -22,12 +22,12 @@ statesList = {[1,2,3],[1,2,3]};
 Nplots = 2; % Plot L and R separately
 stateMultiplierList = [1,1,1,1]; % For scaling state histograms
 stateDescriptions = {'Laser L','Laser R'};
-nZeros = 0;
 
 for expNn = 1:size(expList,2)
     expN = expList(expNn);
     loadData(expN);
-    laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
+	[lEpoch, testPower] = leftOrRight(exp);
+    laserPowers(expNn) = testPower;
 end
 powerList = unique(laserPowers);
 Npowers = size(powerList,2);
@@ -37,15 +37,13 @@ Ntot = zeros(Nplots, Npowers, NtBins, NxBins);
 for expNn = 1:size(expList,2)
     expN = expList(expNn);
     loadData(expN);
-	if (exp.laserParams(1) > exp.laserParams(2))
+	[lEpoch, testPower] = leftOrRight(exp);
+	if (lEpoch == 1)
 		plotN = 1;
-	elseif (exp.laserParams(2) > exp.laserParams(1))
+	elseif (lEpoch == -1)
 		plotN = 2;
-	elseif (exp.laserParams(1) == exp.laserParams(2))
-        nZeros = nZeros + 1;
-		plotN = mod(nZeros,2)+1;
 	end
-		powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
+		powerN = dsearchn(powerList',testPower);
 		% Resample data
 		bodyX = resample(exp.wholeTrack.bodyX,0:timeSampleInterval:exp.wholeTrack.bodyX.Time(end));
 		headX = resample(exp.wholeTrack.headX,0:timeSampleInterval:exp.wholeTrack.headX.Time(end));

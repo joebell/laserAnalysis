@@ -6,7 +6,8 @@ function laserSpeedHistogram(expList, useEpochs, useLanes)
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
+		[lEpoch, testPower] = leftOrRight(exp);
+        laserPowers(expNn) = testPower;
     end   
     powerList = unique(laserPowers);
     Npowers = size(powerList,2);
@@ -21,10 +22,9 @@ function laserSpeedHistogram(expList, useEpochs, useLanes)
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
+		[lEpoch, testPower] = leftOrRight(exp);
+        powerN = dsearchn(powerList',testPower);
         
-
-
         for epochN = useEpochs
 
 		    bodyX = resample(exp.epoch(epochN).track.bodyX,0:timeSampleInterval:exp.epoch(epochN).track.bodyX.Time(end));

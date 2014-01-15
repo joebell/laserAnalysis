@@ -7,7 +7,8 @@ timeLags = [0:1:10,20:10:150];
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
+		[lEpoch, testPower] = leftOrRight(exp);
+        laserPowers(expNn) = testPower;
     end
     powerList = unique(laserPowers);
     Npowers = size(powerList,2);
@@ -29,7 +30,8 @@ for timeLagN = 1:size(timeLags,2);
         expN = expList(expNn);
         loadData(expN);
 
-        powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
+		[lEpoch, testPower] = leftOrRight(exp);
+        powerN = dsearchn(powerList',testPower);
 
         for laneN = useLanes
             for epochN = useEpochs
