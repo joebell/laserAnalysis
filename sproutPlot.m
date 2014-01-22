@@ -71,6 +71,8 @@ for order = orderList
                 headX = -headX;
             elseif (lEpoch==-1 && (bodyX(1)+headX(1) < 0))
                 ix = find(bodyX+headX > 0);
+			else
+				ix = [];
             end
             
 

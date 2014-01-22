@@ -2,6 +2,19 @@ function [LR, testPower] = leftOrRight(exp)
 
 	laserParams = exp.laserParams;
 
+	% If this is a temperature compensated trial, use
+	% the field that tells us what side the ref. blue 
+	% is on.
+	if isfield(exp,'refSide')
+		LR = exp.refSide;
+		if (LR == 1)
+			testPower = laserParams(1);
+		elseif (LR == -1)
+			testPower = laserParams(2);
+		end
+		return;
+	end
+
 	% If there's no red laser in the data set
 	if (length(laserParams) == 2)
 		if laserParams(1) > laserParams(2)

@@ -40,7 +40,7 @@ function plotStateLifetimes(expList, useEpochs, useLanes)
                 stateSeq   = identifyStates(scaledTrack);
 
 				% Flip LR to put states in toward/away basis
-				if (leftEpoch == -1)
+				if (lEpoch == -1)
 					ixL = find(stateSeq == 1);
 					ixR = find(stateSeq == 3);
 					stateSeq(ixL) = 3;
