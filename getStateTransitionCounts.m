@@ -1,5 +1,6 @@
 function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
 
+	exp = 0; % Ensure compiler knows exp is a variable loaded from the data file.
 
 	timeSampleInterval = .1;
     
@@ -10,7 +11,8 @@ function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
+		[lEpoch, testPower] = leftOrRight(exp);
+        laserPowers(expNn) = testPower;
     end
     powerList = unique(laserPowers);
     Npowers = size(powerList,2);
@@ -22,20 +24,14 @@ function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
     % Zero out the state counts   
     % [PowerN, [LaserL|LaserR], [From],[X],[To],[TimeChunk]    
     ASC = zeros(Npowers,2,3,NxBins,3,maxChunks); % Left
-    
+   
     for expNn = 1:size(expList,2)
 
         expN = expList(expNn);
         loadData(expN);
-
-        powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
-		if (exp.laserParams(1) > exp.laserParams(2))
-			lEpoch = 1;
-		elseif (exp.laserParams(1) < exp.laserParams(2))
-			lEpoch = 2;
-		elseif (exp.laserParams(1) == exp.laserParams(2))
-			lEpoch = randi(2);
-		end
+		[lEpoch,testPower] = leftOrRight(exp);
+		lEpochIX = (3-lEpoch)/2;
+		powerN = dsearchn(powerList',testPower);
 
 		nPerPower(powerN) = nPerPower(powerN) + 1;
 		chunkN = ceil(nPerPower(powerN)/nPerChunk);
@@ -62,8 +58,8 @@ function ASC = getStateTransitionCounts(expList, useLanes, useEpochs)
 				            if (size(xBinIndices,1) > 0)
 				                for xBinIndexN=1:size(xBinIndices,1)
 				                    xBinIndex = xBinIndices(xBinIndexN);
-				                    ASC(powerN,lEpoch,fromState,xBinIndex,toState,chunkN) = ...
- 										ASC(powerN,lEpoch,fromState,xBinIndex,toState,chunkN) + 1;
+				                    ASC(powerN,lEpochIX,fromState,xBinIndex,toState,chunkN) = ...
+ 										ASC(powerN,lEpochIX,fromState,xBinIndex,toState,chunkN) + 1;
 				                end
 				            end
 				        end

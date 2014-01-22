@@ -1,5 +1,7 @@
 function stateTransThumbs(ASC)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
 	cLim = .15;
 
 	subplot(3,6,1);

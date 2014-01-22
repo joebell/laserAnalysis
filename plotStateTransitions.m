@@ -1,5 +1,7 @@
 function AllStateProbs = plotStateTransitions(expList, useLanes, useEpochs)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
     fontSize = 10;
     useColormap = fireAndIce();
 	timeSampleInterval = .1;
@@ -15,7 +17,8 @@ function AllStateProbs = plotStateTransitions(expList, useLanes, useEpochs)
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
+		[lEpoch, testPower] = leftOrRight(exp);
+        laserPowers(expNn) = testPower;
     end
     powerList = unique(laserPowers);
     Npowers = size(powerList,2);
@@ -32,15 +35,8 @@ function AllStateProbs = plotStateTransitions(expList, useLanes, useEpochs)
 		% disp(expNn);
         expN = expList(expNn);
         loadData(expN);
-
-        powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
-		if (exp.laserParams(1) > exp.laserParams(2))
-			lEpoch = 1;
-		elseif (exp.laserParams(1) < exp.laserParams(2))
-			lEpoch = -1;
-		elseif (exp.laserParams(1) == exp.laserParams(2))
-			lEpoch = randi(2)*2 - 3;
-		end
+		[lEpoch, testPower] = leftOrRight(exp);
+        powerN = dsearchn(powerList',testPower);
 
 		for epochN = useEpochs
 

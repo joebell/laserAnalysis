@@ -1,5 +1,7 @@
 function I = plotMutualInformation(expList, useEpochs, useLanes)
 
+    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+
 timeSampleInterval = .1;
 % timeLags = [0:1:60,65:5:150];
 timeLags = [0:1:10,20:10:150];
@@ -7,7 +9,8 @@ timeLags = [0:1:10,20:10:150];
     for expNn = 1:size(expList,2)
         expN = expList(expNn);
         loadData(expN);
-        laserPowers(expNn) = max(exp.laserParams.*exp.laserFilter);
+		[lEpoch, testPower] = leftOrRight(exp);
+        laserPowers(expNn) = testPower;
     end
     powerList = unique(laserPowers);
     Npowers = size(powerList,2);
@@ -29,7 +32,8 @@ for timeLagN = 1:size(timeLags,2);
         expN = expList(expNn);
         loadData(expN);
 
-        powerN = dsearchn(powerList',max(exp.laserParams.*exp.laserFilter));
+		[lEpoch, testPower] = leftOrRight(exp);
+        powerN = dsearchn(powerList',testPower);
 
         for laneN = useLanes
             for epochN = useEpochs
