@@ -30,8 +30,8 @@ function [LR, testPower] = leftOrRight(exp)
 		end
 	end
 
-	% If it's a red laser trial, pick relative to blue laser.
 	if (length(laserParams) == 4)
+	% If it's a red laser trial, pick relative to blue laser.
 		if laserParams(3) == 1
 			LR = 1;
 			testPower = laserParams(1);
@@ -39,6 +39,14 @@ function [LR, testPower] = leftOrRight(exp)
 			LR = -1;
 			testPower = laserParams(2);
 		end
+	% Pick relative to the red laser.
+		% if laserParams(3) == 2
+		% 	LR = 1;
+		% 	testPower = laserParams(1);
+		% elseif laserParams(4) == 2
+		% 	LR = -1;
+		% 	testPower = laserParams(2);
+		% end
 	end
 
 	testPower = testPower*exp.laserFilter;
