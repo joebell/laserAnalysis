@@ -3,6 +3,10 @@ function laserPowerSeriesFlex(dM, useLanes, plotQuantity, travelThreshold, lineC
     laneSwitches = zeros(8,1);
     laneSwitches(useLanes) = 1;
 
+	if (max(dM.conc) < 2)
+		dM.conc = dM.conc.*100;
+	end
+
 %	adaptTarget = 4;
 
     refLineOn = false;

@@ -8,9 +8,17 @@ function [LR, testPower] = leftOrRight(exp)
 	if isfield(exp,'refSide')
 		LR = exp.refSide;
 		if (LR == 1)
-			testPower = laserParams(1);
+			if (length(unique(exp.laserPowers)) == 1)
+				testPower = laserParams(3);
+			else
+				testPower = laserParams(1);
+			end
 		elseif (LR == -1)
-			testPower = laserParams(2);
+			if (length(unique(exp.laserPowers)) == 1)
+				testPower = laserParams(4);
+			else
+				testPower = laserParams(2);
+			end
 		end
 		return;
 	end

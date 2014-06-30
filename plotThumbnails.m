@@ -1,6 +1,6 @@
 function plotThumbnails(dM, expList, useLanes)
 
-    exp = 0; % Ensure compiler knows exp is a variable loaded from the data file
+    exp = 0; % Ensure interpreter knows exp is a variable loaded from the data file
     
     timeSampleInterval = .1;
 	fontSize = 6;

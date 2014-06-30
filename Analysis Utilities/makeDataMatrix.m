@@ -39,7 +39,7 @@ for order = orderList
 		headX = resample(exp.epoch(epochN).track.headX,newTimeVector);
 		scaledSegs = bodyX.Data + headX.Data;
 
-		for fly=1:8
+		for fly=1:size(scaledSegs,2)
 		    
 				scaledSeg = scaledSegs(:,fly);
 

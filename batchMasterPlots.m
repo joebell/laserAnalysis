@@ -1,5 +1,5 @@
 % New batch scheduler, 
-function batchMasterPlots(expList, varargin)
+function batchMasterPlots(expList, laneList, varargin)
 
 	if nargin > 1
 		useLSF = varargin{1};
@@ -8,13 +8,12 @@ function batchMasterPlots(expList, varargin)
 	end
 
 	epochList = 2;
-	laneList = [1:8];
 	
 	if (useLSF)
 		jm = findResource('scheduler','type','lsf');
 		set(jm,'ClusterMatlabRoot','/opt/matlab');
 		job = createJob(jm);
-		set(jm,'SubmitArguments','-R "rusage[matlab_dc_lic=1]" -W 1:00 -q short');
+		set(jm,'SubmitArguments','-R "rusage[matlab_dc_lic=1]" -W 12:00 -q short');
 	end
 
 	for expNn = 1:length(expList)
